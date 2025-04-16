@@ -8,11 +8,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #2f2f2f;
+            background-color: #1e1e1e;
             color: #ffffff;
             font-family: 'Montserrat', Arial, sans-serif;
             margin: 0;
-            padding: 0 10px; /* Padding für Platz an den Seiten */
+            padding: 0 15px; /* Padding für Platz an den Seiten */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -22,63 +22,68 @@
         .profile {
             text-align: center;
             margin-bottom: 40px;
-            max-width: 900px; /* Begrenzung der Breite */
+            max-width: 900px;
             width: 100%;
         }
         .profile img {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             margin-top: 30px;
+            border: 3px solid #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
         .profile h1 {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 700;
             margin: 10px 0;
-            color: #d4d4d4;
-            word-wrap: break-word; /* Textumbruch für lange Wörter */
+            color: #f5f5f5;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
         }
         .profile p {
             font-size: 18px;
             font-weight: 400;
-            margin: 15px 0;
-            color: #b0b0b0;
-            word-wrap: break-word; /* Textumbruch für lange Wörter */
+            margin: 10px 0;
+            color: #cfcfcf;
+            line-height: 1.6;
         }
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
+        .disclaimer {
+            font-size: 14px;
+            color: #a0a0a0;
             margin-top: 20px;
-        }
-        .social-links a {
-            color: #ffffff;
-            font-size: 20px;
-            font-weight: 600;
-            text-decoration: none;
+            text-align: center;
+            font-style: italic;
         }
         .grid-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr); /* Genau 3 Kacheln pro Reihe */
-            gap: 10px;
-            max-width: 900px; /* Begrenzung der Breite */
+            gap: 15px;
+            max-width: 900px;
             width: 100%;
         }
         .tile {
             position: relative;
-            background-color: #444;
-            border-radius: 8px;
+            background-color: #2a2a2a;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            width: 100%;
-            aspect-ratio: 1 / 1;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            aspect-ratio: 1 / 1; /* Kacheln bleiben quadratisch */
+        }
+        .tile:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
         }
         .tile img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
+            transition: transform 0.3s ease;
+        }
+        .tile:hover img {
+            transform: scale(1.05);
         }
     </style>
 </head>
@@ -87,13 +92,7 @@
         <img src="https://p16-pu-sign-no.tiktokcdn-eu.com/tos-no1a-avt-0068c001-no/557bac30e2aef794fa0ca3ce75fd4e5f~tplv-tiktokx-cropcenter:1080:1080.jpeg" alt="Profilbild">
         <h1>Gadtechie</h1>
         <p>✨ Discover Amazon gems & must-have finds! 🛒✨ Check them out below! ⬇️</p>
-        <div class="social-links">
-            <a href="#" target="_blank">YouTube</a>
-            <a href="#" target="_blank">Instagram</a>
-            <a href="#" target="_blank">TikTok</a>
-            <a href="#" target="_blank">Facebook</a>
-            <a href="#" target="_blank">Snapchat</a>
-        </div>
+        <p class="disclaimer">As an Amazon Associate, I earn from qualifying purchases.</p>
     </div>
     <div class="grid-container" id="grid-container">
         <!-- Dynamische Kacheln werden hier eingefügt -->
