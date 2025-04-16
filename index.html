@@ -4,19 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amazon Kacheln</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             background-color: #2f2f2f;
             color: #ffffff;
-            font-family: Arial, sans-serif;
+            font-family: 'Montserrat', Arial, sans-serif; /* Neue Schriftart */
             margin: 0;
             padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .profile {
+            text-align: center;
+            margin-bottom: 40px; /* Abstand zu den Kacheln */
+        }
+        .profile img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px; /* Mehr Abstand unter dem Profilbild */
+            margin-top: 30px; /* Mehr Abstand über dem Profilbild */
+        }
+        .profile h1 {
+            font-size: 28px;
+            font-weight: 700; /* Dickere Schrift */
+            margin: 10px 0;
+            color: #d4d4d4;
+        }
+        .profile p {
+            font-size: 18px;
+            font-weight: 400; /* Normalgewicht */
+            margin: 15px 0;
+            color: #b0b0b0;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px; /* Mehr Abstand zwischen den Links */
+            margin-top: 20px; /* Mehr Abstand über den Social Links */
+        }
+        .social-links a {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 600; /* Dickere Schrift */
+            text-decoration: none;
         }
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Genau 3 Kacheln pro Reihe */
-            gap: 10px;
-            padding: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            justify-content: center;
         }
         .tile {
             position: relative;
@@ -24,32 +65,68 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            width: 100%; /* Sicherstellen, dass die Breite 100% des Containers ist */
-            aspect-ratio: 1 / 1; /* Quadratische Kacheln */
+            width: 100%;
+            max-width: 300px;
+            aspect-ratio: 1 / 1;
         }
         .tile img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Bild passend zuschneiden */
+            object-fit: cover;
             display: block;
-        }
-        .tile .caption {
-            position: absolute;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            width: 100%;
-            padding: 10px;
-            font-size: 14px;
-            text-align: center;
         }
     </style>
 </head>
 <body>
-    <h1 style="text-align: center; padding: 20px;">Amazon Kacheln</h1>
+    <div class="profile">
+        <img src="https://p16-pu-sign-no.tiktokcdn-eu.com/tos-no1a-avt-0068c001-no/557bac30e2aef794fa0ca3ce75fd4e5f~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=10399&refresh_token=53e0922c&x-expires=1745002800&x-signature=JoPatgFOgrWUczyVQv7izQsBICw%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=no1a" alt="Profilbild">
+        <h1>Gadtechie</h1>
+        <p>✨ Discover Amazon gems & must-have finds! 🛒✨ Check them out below! ⬇️</p>
+        <div class="social-links">
+            <a href="#" target="_blank">YouTube</a>
+            <a href="#" target="_blank">Instagram</a>
+            <a href="#" target="_blank">TikTok</a>
+            <a href="#" target="_blank">Facebook</a>
+            <a href="#" target="_blank">Snapchat</a>
+        </div>
+    </div>
     <div class="grid-container" id="grid-container">
         <!-- Dynamische Kacheln werden hier eingefügt -->
     </div>
-    <script src="app.js"></script>
+    <script>
+        const amazonLinks = [
+            "https://m.media-amazon.com/images/I/61s4tTAizUL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/41FYkVPzrIL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/51CjYz4iQHL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/61Iz2yy2CKL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/71KilybDOoL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/81OthjkJBuL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/91bYsX41DVL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/71aG+xDKSYL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/81QpkIctqPL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/61IBBVJvSDL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/71g2ednj0JL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/91bYsX41DVL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/71aG+xDKSYL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/81QpkIctqPL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/61IBBVJvSDL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/71g2ednj0JL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/81eB+7+CkUL._AC_SY400_.jpg"
+        ];
+
+        const gridContainer = document.getElementById("grid-container");
+
+        amazonLinks.forEach((link, index) => {
+            const tile = document.createElement("div");
+            tile.className = "tile";
+
+            const img = document.createElement("img");
+            img.src = link;
+            img.alt = `Amazon Produkt ${index + 1}`;
+
+            tile.appendChild(img);
+            gridContainer.appendChild(tile);
+        });
+    </script>
 </body>
 </html>
