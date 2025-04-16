@@ -2,10 +2,54 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Hallo Seite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Kacheln</title>
+    <style>
+        body {
+            background-color: #2f2f2f;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Genau 3 Kacheln pro Reihe */
+            gap: 10px;
+            padding: 20px;
+        }
+        .tile {
+            position: relative;
+            background-color: #444;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            width: 100%; /* Sicherstellen, dass die Breite 100% des Containers ist */
+            aspect-ratio: 1 / 1; /* Quadratische Kacheln */
+        }
+        .tile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Bild passend zuschneiden */
+            display: block;
+        }
+        .tile .caption {
+            position: absolute;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hallojhduoiwahdouiawhgdahw</h1>
-    <button onclick="location.reload();">Seite neu laden</button>
+    <h1 style="text-align: center; padding: 20px;">Amazon Kacheln</h1>
+    <div class="grid-container" id="grid-container">
+        <!-- Dynamische Kacheln werden hier eingefügt -->
+    </div>
+    <script src="app.js"></script>
 </body>
 </html>
