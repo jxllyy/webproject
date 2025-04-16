@@ -22,6 +22,8 @@
         .profile {
             text-align: center;
             margin-bottom: 40px;
+            max-width: 900px; /* Begrenzung der Breite */
+            width: 100%;
         }
         .profile img {
             width: 100px;
@@ -58,10 +60,10 @@
         }
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Responsive Layout */
+            grid-template-columns: repeat(3, 1fr); /* Genau 3 Kacheln pro Reihe */
             gap: 10px;
-            width: 100%; /* Volle Breite nutzen */
-            max-width: 1200px; /* Maximale Breite für größere Bildschirme */
+            max-width: 900px; /* Begrenzung der Breite */
+            width: 100%;
         }
         .tile {
             position: relative;
