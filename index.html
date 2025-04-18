@@ -117,6 +117,21 @@
             "https://m.media-amazon.com/images/I/81QpkIctqPL._AC_SY400_.jpg",
             "https://m.media-amazon.com/images/I/61IBBVJvSDL._AC_SY400_.jpg",
             "https://m.media-amazon.com/images/I/71g2ednj0JL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/91bYsX41DVL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/71aG+xDKSYL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/81QpkIctqPL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/61IBBVJvSDL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/71g2ednj0JL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/91bYsX41DVL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/71aG+xDKSYL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/81QpkIctqPL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/61IBBVJvSDL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/71g2ednj0JL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/91bYsX41DVL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/71aG+xDKSYL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/81QpkIctqPL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/61IBBVJvSDL._AC_SY400_.jpg",
+            "https://m.media-amazon.com/images/I/71g2ednj0JL._AC_SY400_.jpg",
             "https://m.media-amazon.com/images/I/81eB+7+CkUL._AC_SY400_.jpg"
         ];
 
@@ -131,6 +146,12 @@
             img.alt = `Amazon Produkt ${index + 1}`;
 
             tile.appendChild(img);
+
+            // Add click event to redirect to Amazon.com
+            tile.addEventListener("click", () => {
+                window.open("https://www.amazon.com", "_blank");
+            });
+
             gridContainer.appendChild(tile);
         });
     </script>
