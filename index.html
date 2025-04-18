@@ -8,52 +8,59 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #010039; /* Neue Hintergrundfarbe */
+            background-color: #17162b;
             color: #ffffff;
             font-family: 'Montserrat', Arial, sans-serif;
             margin: 0;
-            padding: 0 15px; /* Padding für Platz an den Seiten */
+            padding: 0 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
             box-sizing: border-box;
         }
+    
         .profile {
             text-align: center;
             margin-bottom: 40px;
             max-width: 900px;
             width: 100%;
         }
+    
         .profile img {
-            width: 100%; /* Passt die Breite an den Container an */
-            max-width: 600px; /* Viermal so groß, aber nicht breiter als die drei Kacheln */
+            width: 100%;
+            max-width: 600px;
             height: auto;
             margin-bottom: 15px;
             margin-top: 30px;
-            border-radius: 0; /* Keine Rundung für das neue Bild */
+            border-radius: 0;
         }
-        .profile p {
+    
+        .profile p.highlight-text {
             font-size: 18px;
-            font-weight: 400;
+            font-weight: bold;
             margin: 10px 0;
-            color: #cfcfcf;
+            color: #ffffff;
             line-height: 1.6;
         }
-        .disclaimer {
+    
+        .profile p.disclaimer {
             font-size: 14px;
+            font-weight: normal;
             color: #a0a0a0;
             margin-top: 20px;
             text-align: center;
             font-style: italic;
         }
+    
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Genau 3 Kacheln pro Reihe */
+            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
             max-width: 900px;
             width: 100%;
         }
+    
         .tile {
             position: relative;
             background-color: #2a2a2a;
@@ -61,12 +68,14 @@
             overflow: hidden;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            aspect-ratio: 1 / 1; /* Kacheln bleiben quadratisch */
+            aspect-ratio: 1 / 1;
         }
+    
         .tile:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
         }
+    
         .tile img {
             width: 100%;
             height: 100%;
@@ -74,15 +83,17 @@
             display: block;
             transition: transform 0.3s ease;
         }
+    
         .tile:hover img {
             transform: scale(1.05);
         }
     </style>
+    
 </head>
 <body>
     <div class="profile">
         <img src="logo.jpg" alt="Profilbild"> <!-- Neues Bild -->
-        <p>📦 Best Gadgets, Random Must-Haves & Useful Stuff – Check them out below! ⬇️</p>
+        <p class="highlight-text">📦 Best Gadgets, Random Must-Haves & Useful Stuff – Check them out below! ⬇️</p>
         <p class="disclaimer">As an Amazon Associate, I earn from qualifying purchases.</p>
     </div>
     <div class="grid-container" id="grid-container">
