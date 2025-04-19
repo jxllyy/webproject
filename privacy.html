@@ -81,10 +81,24 @@
                 <img src="logo.jpg" alt="Profilbild" class="logo" loading="eager" width="914" height="189">
             </div>
         </a>
+        <p style="font-weight: bold; text-align: center; margin-top: 20px; max-width: 900px;">Privacy Policy</p>
     </div>
-    <div class="content">
-        <!-- ...existing content... -->
+    <div class="content" id="privacy-content">
+        <!-- Der Inhalt wird hier dynamisch geladen -->
     </div>
+    <script>
+        // Laden und Anzeigen des Inhalts von privacy.txt
+        fetch('privacypolicy.txt')
+            .then(response => response.text())
+            .then(data => {
+                // Preserve line breaks by replacing newlines with <br> tags
+                document.getElementById('privacy-content').innerHTML = data.replace(/\n/g, '<br>');
+            })
+            .catch(error => {
+                console.error('Fehler beim Laden der Datenschutzerklärung:', error);
+                document.getElementById('privacy-content').textContent = 'Die Datenschutzerklärung konnte nicht geladen werden.';
+            });
+    </script>
     <footer style="margin-top: 280px; text-align: center; font-size: 14px; color: rgb(80, 80, 80); padding-bottom: 20px;">
         <a href="privacy.html" style="color: gray; text-decoration: none; margin-right: 15px;">Privacy Policy</a>
         <a href="legal.html" style="color: gray; text-decoration: none;">Legal Notice</a>
