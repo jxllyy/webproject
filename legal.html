@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Notice</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Ensure footer stays at the bottom */
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0 15px;
+            background-color: #17162b;
+            color: #ffffff;
+            font-family: 'Montserrat', Arial, sans-serif;
+            box-sizing: border-box;
+        }
+
+        .profile img {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            margin-bottom: 15px;
+            margin-top: 30px;
+            border-radius: 0;
+            aspect-ratio: 914 / 249;
+        }
+
+        .logo-wrapper {
+            width: 100%;
+            max-width: 914px;
+            height: 189px; /* Default height */
+            overflow: hidden;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .logo-wrapper {
+                height: 174px; /* Reduced height by 15px for mobile */
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .logo-wrapper {
+                height: 219px; /* Increased height by 15px for desktop */
+            }
+        }
+
+        .content {
+            flex: 1; /* Allow content to take up available space */
+            max-width: 900px;
+            margin-top: 20px;
+            color: #ffffff;
+        }
+
+        footer {
+            margin-top: auto; /* Ensure footer stays at the bottom without extra space */
+            text-align: center;
+            font-size: 14px;
+            color: rgb(80, 80, 80);
+            font-family: 'Montserrat', Arial, sans-serif;
+            padding-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile">
+        <a href="index.html">
+            <div class="logo-wrapper">
+                <img src="logo.jpg" alt="Profilbild" class="logo" loading="eager" width="914" height="189">
+            </div>
+        </a>
+    </div>
+    <div class="content">
+        <p><strong>Legal Notice</strong></p>
+        <p>Information in accordance with Section 5 TMG:</p>
+        <p>Nick Baumgardt<br />Alter Kirchweg 2<br />23617 Stockelsdorf<br />Germany</p>
+        <p>Contact Information:<br />E-Mail: njbaumgardt@gmail.com</p>
+        <p>Responsible for content according to § 55 Abs. 2 RStV (German Interstate Media Treaty):<br />Nick Baumgardt, address as above</p>
+        <p><strong>Disclaimer:</strong></p>
+        <p>This website contains affiliate links, including participation in the Amazon EU Associates Program. If you click on one of these links and make a purchase, we may receive a small commission at no additional cost to you.</p>
+        <p>All trademarks and product images are the property of their respective owners.</p>
+    </div>
+    <footer>
+        <a href="privacy.html" style="color: gray; text-decoration: none; margin-right: 15px;">Privacy Policy</a>
+        <a href="legal.html" style="color: gray; text-decoration: none;">Legal Notice</a>
+    </footer>
+</body>
+</html>

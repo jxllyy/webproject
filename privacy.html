@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy</title>
+    <style>
+        body {
+            background-color: #17162b;
+            color: #ffffff;
+            font-family: 'Montserrat', Arial, sans-serif;
+            margin: 0;
+            padding: 0 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .content {
+            flex: 1; /* Ensures content takes up available space */
+            max-width: 900px;
+            margin-top: 20px;
+            color: #ffffff;
+        }
+
+        .profile img {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            margin-bottom: 15px;
+            margin-top: 30px;
+            border-radius: 0;
+            aspect-ratio: 914 / 249; /* Updated aspect ratio */
+        }
+
+        footer {
+            margin-top: auto; /* Push footer to the bottom */
+            text-align: center;
+            font-size: 14px;
+            color: rgb(80, 80, 80);
+            font-family: 'Montserrat', Arial, sans-serif; /* Match index.html */
+            padding-bottom: 20px;
+        }
+
+        .logo-wrapper {
+            width: 100%;
+            max-width: 914px;
+            height: 189px; /* Default height */
+            overflow: hidden;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .logo-wrapper {
+                height: 174px; /* Reduced height by 15px for mobile */
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .logo-wrapper {
+                height: 219px; /* Increased height by 15px for desktop */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="profile">
+        <a href="index.html">
+            <div class="logo-wrapper">
+                <img src="logo.jpg" alt="Profilbild" class="logo" loading="eager" width="914" height="189">
+            </div>
+        </a>
+    </div>
+    <div class="content">
+        <!-- ...existing content... -->
+    </div>
+    <footer style="margin-top: 280px; text-align: center; font-size: 14px; color: rgb(80, 80, 80); padding-bottom: 20px;">
+        <a href="privacy.html" style="color: gray; text-decoration: none; margin-right: 15px;">Privacy Policy</a>
+        <a href="legal.html" style="color: gray; text-decoration: none;">Legal Notice</a>
+    </footer>
+</body>
+</html>
