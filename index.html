@@ -170,7 +170,10 @@
     <script>
         const gridContainer = document.getElementById("grid-container");
 
-        const csvUrl = "data.csv"; // Updated to fetch from the main folder
+        const host = window.location.host;
+        const csvUrl = host === "127.0.0.1:5500"
+            ? "https://docs.google.com/spreadsheets/d/17W9pOU5n4GCEb0WBQ0O2QecztUB2djmRxwk9tCJNDcI/export?format=csv"
+            : "data.csv";
 
         async function fetchAndProcessCSV() {
             try {
