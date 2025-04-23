@@ -15,7 +15,7 @@ jobs:
 
       - name: Download CSV
         run: |
-          curl -L -o data.csv https://docs.google.com/spreadsheets/d/1Ft-FLTjhYD-vM6aYSpWxvz_xCjyB7hN8iANPBlcmLzE/export?format=csv
+          curl -L -o data.csv https://docs.google.com/spreadsheets/d/17W9pOU5n4GCEb0WBQ0O2QecztUB2djmRxwk9tCJNDcI/export?format=csv
 
       - name: Commit and push changes
         run: |
