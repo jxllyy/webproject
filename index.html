@@ -135,49 +135,109 @@
         <p class="disclaimer">As an Amazon Associate, I earn from qualifying purchases.</p>
     </div>
     <div class="grid-container" id="grid-container">
-        <!-- Dynamische Kacheln werden hier eingefügt -->
+        <!-- Empty tiles will be displayed initially -->
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
     </div>
     <script>
-        const amazonLinks = [
-            "https://www.amazon.de/",
-            "https://www.amazon.de/",
-            "https://www.amazon.de/",
-            "https://www.amazon.de/",
-            "https://www.amazon.de/"
-        ];
-
         const gridContainer = document.getElementById("grid-container");
 
-        // Add a placeholder class to tiles before images load
-        amazonLinks.forEach((link, index) => {
-            const tile = document.createElement("div");
-            tile.className = "tile placeholder";
+        const csvUrl = "https://docs.google.com/spreadsheets/d/1Ft-FLTjhYD-vM6aYSpWxvz_xCjyB7hN8iANPBlcmLzE/export?format=csv";
 
-            const img = document.createElement("img");
-            img.loading = "lazy"; // Lazy load images
-            const imagePath = `product images/product${index + 1}.jpg`;
+        async function fetchAndProcessCSV() {
+            try {
+                const response = await fetch(csvUrl);
+                if (!response.ok) throw new Error("Failed to fetch CSV file");
+                const csvText = await response.text();
 
-            // Check if the image exists
-            fetch(imagePath, { method: 'HEAD' })
-                .then(response => {
-                    img.src = response.ok ? imagePath : "product images/placeholder.jpg";
-                    tile.classList.remove("placeholder"); // Remove placeholder class
-                })
-                .catch(() => {
-                    img.src = "product images/placeholder2.jpg";
-                    tile.classList.remove("placeholder");
+                // Parse CSV data
+                const rows = csvText.split("\n").map(row => row.split(","));
+                rows.shift(); // Remove header row
+
+                // Filter rows where the first column is filled with text
+                const validRows = rows.filter(row => row[0]?.trim());
+
+                // Clear existing tiles
+                gridContainer.innerHTML = "";
+
+                // Dynamically create tiles based on valid rows
+                validRows.forEach((row, index) => {
+                    const [productName, fallbackLink, affiliateLink] = row.map(cell => cell.trim());
+
+                    const tile = document.createElement("div");
+                    tile.className = "tile";
+
+                    const img = document.createElement("img");
+                    img.loading = "lazy";
+                    img.src = `product images/product${index + 1}.jpg`; // Use product image
+                    img.alt = productName || `Product Image ${index + 1}`;
+                    img.onerror = () => {
+                        img.src = "product images/placeholder.jpg"; // Use placeholder image if not found
+                    };
+                    tile.appendChild(img);
+
+                    // Add overlay if no affiliate link
+                    if (!affiliateLink) {
+                        const overlay = document.createElement("div");
+                        overlay.style.position = "absolute";
+                        overlay.style.top = "0";
+                        overlay.style.left = "0";
+                        overlay.style.width = "100%";
+                        overlay.style.height = "100%";
+                        overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+                        overlay.style.color = "white";
+                        overlay.style.display = "flex";
+                        overlay.style.justifyContent = "center";
+                        overlay.style.alignItems = "center";
+                        overlay.style.fontSize = "14px";
+                        overlay.textContent = fallbackLink ? "no aff. link" : "no aff. link & link";
+                        tile.appendChild(overlay);
+                    }
+
+                    // Add click event to redirect to the appropriate link
+                    tile.addEventListener("click", () => {
+                        const link = affiliateLink || fallbackLink || "https://www.amazon.com";
+                        window.open(link, "_blank");
+                    });
+
+                    gridContainer.appendChild(tile);
                 });
+            } catch (error) {
+                console.error("Error fetching or processing CSV:", error);
+            }
+        }
 
-            img.alt = `Product Image ${index + 1}`;
-            tile.appendChild(img);
-
-            // Add click event to redirect to Amazon.com
-            tile.addEventListener("click", () => {
-                window.open(link, "_blank");
-            });
-
-            gridContainer.appendChild(tile);
-        });
+        // Fetch the CSV file every 60 seconds
+        fetchAndProcessCSV(); // Initial fetch
+        setInterval(fetchAndProcessCSV, 60000); // Repeat every 60 seconds
     </script>
     <footer style="margin-top: 280px; text-align: center; font-size: 14px; color: rgb(80, 80, 80); padding-bottom: 20px;">
         <a href="privacy.html" style="color: gray; text-decoration: none; margin-right: 15px;">Privacy Policy</a>
