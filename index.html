@@ -164,8 +164,6 @@
         <div class="tile"></div>
         <div class="tile"></div>
         <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
     </div>
     <script>
         const gridContainer = document.getElementById("grid-container");
@@ -221,7 +219,7 @@
                         overlay.style.justifyContent = "center";
                         overlay.style.alignItems = "center";
                         overlay.style.fontSize = "14px";
-                        overlay.textContent = fallbackLink ? "no aff. link" : "no aff. link & link";
+                        overlay.textContent = fallbackLink ? "no aff. link" : "no aff. & prod. link";
                         tile.appendChild(overlay);
                     }
 
@@ -240,7 +238,6 @@
 
         // Fetch the CSV file every 60 seconds
         fetchAndProcessCSV(); // Initial fetch
-        setInterval(fetchAndProcessCSV, 60000); // Repeat every 60 seconds
     </script>
     <footer style="margin-top: 280px; text-align: center; font-size: 14px; color: rgb(80, 80, 80); padding-bottom: 20px;">
         <a href="privacy.html" style="color: gray; text-decoration: none; margin-right: 15px;">Privacy Policy</a>
