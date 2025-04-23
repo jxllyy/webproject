@@ -2,8 +2,8 @@ name: Download CSV
 
 on:
   schedule:
-    - cron: "*/1 * * * *"  # Alle 1 Minuten
-  workflow_dispatch:  # Manuelles Auslösen möglich
+    - cron: "*/5 * * * *"  # Alle 5 Minuten
+  workflow_dispatch:  # Optional: manuell auslösen
 
 jobs:
   download:
@@ -17,14 +17,13 @@ jobs:
         run: |
           curl -L -o data.csv https://docs.google.com/spreadsheets/d/1Ft-FLTjhYD-vM6aYSpWxvz_xCjyB7hN8iANPBlcmLzE/export?format=csv
 
-- name: Commit changes
-  run: |
-    git config --global user.name "github-actions"
-    git config --global user.email "github-actions@github.com"
-    git add data.csv
-    git commit -m "Update CSV" || echo "No changes to commit"
-    git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-    git push origin main
-  env:
-    GIT_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add data.csv
+          git commit -m "Update CSV" || echo "No changes to commit"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git push origin main
+        env:
+          GIT_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
