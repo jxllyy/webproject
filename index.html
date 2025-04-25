@@ -64,20 +64,27 @@
             width: 100%;
         }
 
-        .tile {
-            position: relative;
-            background-color: #2a2a2a;
+        .tile-wrapper {
+            display: flex;
+            flex-direction: column;
+            background-color: transparent;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            aspect-ratio: 1 / 1;
             cursor: pointer;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* Move shadow here */
         }
 
-        .tile:hover {
+        .tile-wrapper:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+        }
+
+        .tile {
+            background-color: #2a2a2a;
+            border-radius: 12px 12px 0 0; /* Adjust border-radius */
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+            position: relative;
         }
 
         .tile img {
@@ -86,7 +93,6 @@
             object-fit: cover;
             display: block;
             transition: transform 0.3s ease;
-            aspect-ratio: 1 / 1;
         }
 
         .tile:hover img {
@@ -94,17 +100,18 @@
         }
 
         .product-name-box {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            background-color: rgba(10, 10, 10, 0.85);
+            margin-top: -10px; /* Move 10px upwards */
+            background-color: #2f2f2f; /* helleres Dunkelgrau */
             color: #ffffff;
             text-align: center;
             font-size: 14px;
             font-weight: 600;
             padding: 6px 4px;
-            box-sizing: border-box;
+            border-radius: 0 0 12px 12px; /* bündig zur Kachel oben */
+            position: relative; /* Ensure proper stacking */
+            z-index: 1; /* Ensure it appears above the tile */
         }
+
 
         .logo-wrapper {
             width: 100%;
@@ -172,6 +179,9 @@
                 validRows.forEach((row, index) => {
                     const [productName, fallbackLink, affiliateLink] = row.map(cell => cell.trim());
 
+                    const tileWrapper = document.createElement("div");
+                    tileWrapper.className = "tile-wrapper";
+
                     const tile = document.createElement("div");
                     tile.className = "tile";
 
@@ -183,11 +193,6 @@
                         img.src = "product images/placeholder.jpg";
                     };
                     tile.appendChild(img);
-
-                    const nameBox = document.createElement("div");
-                    nameBox.className = "product-name-box";
-                    nameBox.textContent = productName;
-                    tile.appendChild(nameBox);
 
                     if (!affiliateLink) {
                         const overlay = document.createElement("div");
@@ -211,7 +216,13 @@
                         window.open(link, "_blank");
                     });
 
-                    gridContainer.appendChild(tile);
+                    const nameBox = document.createElement("div");
+                    nameBox.className = "product-name-box";
+                    nameBox.textContent = productName;
+
+                    tileWrapper.appendChild(tile);
+                    tileWrapper.appendChild(nameBox);
+                    gridContainer.appendChild(tileWrapper);
                 });
             } catch (error) {
                 console.error("Error fetching or processing CSV:", error);
@@ -219,7 +230,6 @@
         }
 
         fetchAndProcessCSV();
-        // Optional: setInterval(() => fetchAndProcessCSV(), 60000);
     </script>
 
     <footer style="margin-top: 280px; text-align: center; font-size: 14px; color: rgb(80, 80, 80); padding-bottom: 20px;">
