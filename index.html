@@ -110,6 +110,9 @@
             border-radius: 0 0 12px 12px; /* bündig zur Kachel oben */
             position: relative; /* Ensure proper stacking */
             z-index: 1; /* Ensure it appears above the tile */
+            white-space: nowrap; /* Prevent text wrapping */
+            overflow: hidden; /* Hide overflowing text */
+            text-overflow: ellipsis; /* Add ellipsis for overflow */
         }
 
 
