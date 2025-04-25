@@ -162,7 +162,31 @@
     </div>
 
     <div class="grid-container" id="grid-container">
-        <!-- Tiles will be populated here -->
+        <!-- Placeholder tiles -->
+        <div class="tile-wrapper placeholder">
+            <div class="tile"></div>
+            <div class="product-name-box">Loading...</div>
+        </div>
+        <div class="tile-wrapper placeholder">
+            <div class="tile"></div>
+            <div class="product-name-box">Loading...</div>
+        </div>
+        <div class="tile-wrapper placeholder">
+            <div class="tile"></div>
+            <div class="product-name-box">Loading...</div>
+        </div>
+        <div class="tile-wrapper placeholder">
+            <div class="tile"></div>
+            <div class="product-name-box">Loading...</div>
+        </div>
+        <div class="tile-wrapper placeholder">
+            <div class="tile"></div>
+            <div class="product-name-box">Loading...</div>
+        </div>
+        <div class="tile-wrapper placeholder">
+            <div class="tile"></div>
+            <div class="product-name-box">Loading...</div>
+        </div>
     </div>
 
     <script>
@@ -181,7 +205,7 @@
 
                 const rows = csvText.split("\n").map(row => row.split(","));
                 const validRows = rows.filter(row => row[0]?.trim());
-                gridContainer.innerHTML = "";
+                gridContainer.innerHTML = ""; // Clear placeholders
 
                 validRows.forEach((row, index) => {
                     const [productName, fallbackLink, affiliateLink] = row.map(cell => cell.trim());
