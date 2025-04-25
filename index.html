@@ -21,14 +21,14 @@
             min-height: 100vh;
             box-sizing: border-box;
         }
-    
+
         .profile {
             text-align: center;
             margin-bottom: 40px;
             max-width: 900px;
             width: 100%;
         }
-    
+
         .profile img {
             width: 100%;
             max-width: 600px;
@@ -36,18 +36,17 @@
             margin-bottom: 15px;
             margin-top: 30px;
             border-radius: 0;
-            /* Explicit dimensions to prevent layout shifts */
-            aspect-ratio: 914 / 249; /* Updated aspect ratio */
+            aspect-ratio: 914 / 249;
         }
-    
+
         .profile p.highlight-text {
             font-size: 18px;
             font-weight: bold;
-            margin: 5px 0; /* Reduced from 10px to 8px */
+            margin: 5px 0;
             color: #ffffff;
             line-height: 1.6;
         }
-    
+
         .profile p.disclaimer {
             font-size: 16px;
             font-style: italic;
@@ -56,7 +55,7 @@
             margin-top: 20px;
             text-align: center;
         }
-    
+
         .grid-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -64,7 +63,7 @@
             max-width: 900px;
             width: 100%;
         }
-    
+
         .tile {
             position: relative;
             background-color: #2a2a2a;
@@ -73,31 +72,44 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             aspect-ratio: 1 / 1;
+            cursor: pointer;
         }
-    
+
         .tile:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
         }
-    
+
         .tile img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
             transition: transform 0.3s ease;
-            /* Explicit dimensions to prevent layout shifts */
             aspect-ratio: 1 / 1;
         }
-    
+
         .tile:hover img {
             transform: scale(1.05);
+        }
+
+        .product-name-box {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background-color: rgba(10, 10, 10, 0.85);
+            color: #ffffff;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 6px 4px;
+            box-sizing: border-box;
         }
 
         .logo-wrapper {
             width: 100%;
             max-width: 914px;
-            height: 189px; /* Default height */
+            height: 189px;
             overflow: hidden;
             margin: 0 auto;
             display: flex;
@@ -113,17 +125,16 @@
 
         @media (max-width: 768px) {
             .logo-wrapper {
-                height: 174px; /* Reduced height by 15px for mobile */
+                height: 174px;
             }
         }
 
         @media (min-width: 1024px) {
             .logo-wrapper {
-                height: 219px; /* Increased height by 15px for desktop */
+                height: 219px;
             }
         }
     </style>
-    
 </head>
 <body>
     <div class="profile">
@@ -135,37 +146,11 @@
         <p class="highlight-text">📦 Best Gadgets, Random Must-Haves & Useful Stuff – Just Click on any Product below! ⬇️</p>
         <p class="disclaimer">As an Amazon Associate, I earn from qualifying purchases. #ad</p>
     </div>
+
     <div class="grid-container" id="grid-container">
-        <!-- Empty tiles will be displayed initially -->
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
+        <!-- Tiles will be populated here -->
     </div>
+
     <script>
         const gridContainer = document.getElementById("grid-container");
 
@@ -180,17 +165,10 @@
                 if (!response.ok) throw new Error("Failed to fetch CSV file");
                 const csvText = await response.text();
 
-                // Parse CSV data
                 const rows = csvText.split("\n").map(row => row.split(","));
-                rows.shift(); // Remove header row
-
-                // Filter rows where the first column is filled with text
                 const validRows = rows.filter(row => row[0]?.trim());
-
-                // Clear existing tiles
                 gridContainer.innerHTML = "";
 
-                // Dynamically create tiles based on valid rows
                 validRows.forEach((row, index) => {
                     const [productName, fallbackLink, affiliateLink] = row.map(cell => cell.trim());
 
@@ -199,14 +177,18 @@
 
                     const img = document.createElement("img");
                     img.loading = "lazy";
-                    img.src = `product images/product${index + 1}.jpg`; // Use product image
+                    img.src = `product images/product${index + 1}.jpg`;
                     img.alt = productName || `Product Image ${index + 1}`;
                     img.onerror = () => {
-                        img.src = "product images/placeholder.jpg"; // Use placeholder image if not found
+                        img.src = "product images/placeholder.jpg";
                     };
                     tile.appendChild(img);
 
-                    // Add overlay if no affiliate link
+                    const nameBox = document.createElement("div");
+                    nameBox.className = "product-name-box";
+                    nameBox.textContent = productName;
+                    tile.appendChild(nameBox);
+
                     if (!affiliateLink) {
                         const overlay = document.createElement("div");
                         overlay.style.position = "absolute";
@@ -224,7 +206,6 @@
                         tile.appendChild(overlay);
                     }
 
-                    // Add click event to redirect to the appropriate link
                     tile.addEventListener("click", () => {
                         const link = affiliateLink || fallbackLink || "https://www.amazon.com";
                         window.open(link, "_blank");
@@ -237,9 +218,10 @@
             }
         }
 
-        // Fetch the CSV file every 60 seconds
-        fetchAndProcessCSV(); // Initial fetch
+        fetchAndProcessCSV();
+        // Optional: setInterval(() => fetchAndProcessCSV(), 60000);
     </script>
+
     <footer style="margin-top: 280px; text-align: center; font-size: 14px; color: rgb(80, 80, 80); padding-bottom: 20px;">
         <a href="privacy.html" style="color: gray; text-decoration: none; margin-right: 15px;">Privacy Policy</a>
         <a href="legal.html" style="color: gray; text-decoration: none;">Legal Notice</a>
