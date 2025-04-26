@@ -207,8 +207,8 @@
                 const validRows = rows.filter(row => row[0]?.trim());
                 gridContainer.innerHTML = ""; // Clear placeholders
     
-                const promises = []; // für die kleinen Bilder
-                const tileWrappers = []; // um später die großen zu ersetzen
+                const firstSixPromises = []; // Versprechen für die ersten 6 kleinen Bilder
+                const firstSixTiles = []; // Speichern der Tiles für späteres Ersetzen
     
                 validRows.forEach((row, index) => {
                     const [productName, fallbackLink, affiliateLink, imageFile] = row.map(cell => cell.trim());
@@ -221,18 +221,28 @@
     
                     const img = document.createElement("img");
                     img.loading = "lazy";
-                    img.src = `product images/smaller/${imageFile || `product${index + 1}.jpg`}`;
                     img.alt = productName || `Product Image ${index + 1}`;
     
-                    // Promise, das resolved wenn kleines Bild geladen ist
-                    const imgPromise = new Promise(resolve => {
-                        img.onload = () => resolve();
+                    if (index < 6) {
+                        // Für die ersten 6: kleines Bild laden
+                        img.src = `product images/smaller/${imageFile || `product${index + 1}.jpg`}`;
+    
+                        const imgPromise = new Promise(resolve => {
+                            img.onload = () => resolve();
+                            img.onerror = () => {
+                                img.src = "product images/placeholder.jpg";
+                                resolve();
+                            };
+                        });
+                        firstSixPromises.push(imgPromise);
+                        firstSixTiles.push({ img, imageFile, index });
+                    } else {
+                        // Ab Bild 7: direkt großes Bild laden
+                        img.src = `product images/${imageFile || `product${index + 1}.jpg`}`;
                         img.onerror = () => {
                             img.src = "product images/placeholder.jpg";
-                            resolve();
                         };
-                    });
-                    promises.push(imgPromise);
+                    }
     
                     tile.appendChild(img);
     
@@ -265,23 +275,20 @@
                     tileWrapper.appendChild(tile);
                     tileWrapper.appendChild(nameBox);
                     gridContainer.appendChild(tileWrapper);
-    
-                    tileWrappers.push({ tile, imageFile, index }); // speichern für große Bilder
                 });
     
-                // Warten bis alle kleinen Bilder geladen sind
-                await Promise.all(promises);
+                // Warten bis alle ersten 6 kleinen Bilder geladen sind
+                await Promise.all(firstSixPromises);
     
-                // Danach große Bilder nachladen
-                tileWrappers.forEach(({ tile, imageFile, index }) => {
+                // Jetzt große Bilder für die ersten 6 Produkte nachladen
+                firstSixTiles.forEach(({ img, imageFile, index }) => {
                     const bigImg = new Image();
                     bigImg.src = `product images/${imageFile || `product${index + 1}.jpg`}`;
                     bigImg.onload = () => {
-                        const imgElement = tile.querySelector("img");
-                        imgElement.src = bigImg.src;
+                        img.src = bigImg.src; // ersetzen
                     };
                     bigImg.onerror = () => {
-                        // Bei Fehler einfach nichts tun, kleines Bild bleibt
+                        // Fehler ignorieren, kleines Bild bleibt
                     };
                 });
     
@@ -292,6 +299,7 @@
     
         fetchAndProcessCSV();
     </script>
+    
     
 
     <footer style="margin-top: 180px; text-align: center; font-size: 14px; color: rgb(80, 80, 80); padding-bottom: 20px;">
