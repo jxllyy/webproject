@@ -218,12 +218,7 @@
 
                     const img = document.createElement("img");
                     img.loading = "lazy";
-
-                    // Check if the device is mobile and adjust image URL for lower quality
-                    const isMobile = window.matchMedia("(max-width: 768px)").matches;
-                    const imageUrl = `product images/${imageFile || `product${index + 1}.jpg`}`;
-                    img.src = isMobile ? `${imageUrl}?resize=300x300` : imageUrl;
-
+                    img.src = `product images/${imageFile || `product${index + 1}.jpg`}`;
                     img.alt = productName || `Product Image ${index + 1}`;
                     img.onerror = () => {
                         img.src = "product images/placeholder.jpg";
