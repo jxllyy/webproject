@@ -207,6 +207,8 @@
                 const validRows = rows.filter(row => row[0]?.trim());
                 gridContainer.innerHTML = ""; // Clear placeholders
 
+                const imagePromises = []; // Track smaller image loading
+
                 validRows.forEach((row, index) => {
                     const [productName, fallbackLink, affiliateLink, imageFile] = row.map(cell => cell.trim());
 
@@ -218,12 +220,26 @@
 
                     const img = document.createElement("img");
                     img.loading = "lazy";
-                    img.src = `product images/${imageFile || `product${index + 1}.jpg`}`;
+                    img.src = `product images/smaller/${imageFile || `product${index + 1}.jpg`}`;
                     img.alt = productName || `Product Image ${index + 1}`;
                     img.onerror = () => {
                         img.src = "product images/placeholder.jpg";
                     };
                     tile.appendChild(img);
+
+                    // Add promise to load full-resolution image after smaller image
+                    const imagePromise = new Promise((resolve) => {
+                        img.onload = () => {
+                            const fullResImg = new Image();
+                            fullResImg.src = `product images/${imageFile || `product${index + 1}.jpg`}`;
+                            fullResImg.onload = () => {
+                                img.src = fullResImg.src; // Replace with full-resolution image
+                                resolve();
+                            };
+                            fullResImg.onerror = () => resolve(); // Resolve even if full-res image fails
+                        };
+                    });
+                    imagePromises.push(imagePromise);
 
                     if (!affiliateLink) {
                         const overlay = document.createElement("div");
@@ -255,6 +271,9 @@
                     tileWrapper.appendChild(nameBox);
                     gridContainer.appendChild(tileWrapper);
                 });
+
+                // Wait for all smaller images to load before proceeding
+                await Promise.all(imagePromises);
             } catch (error) {
                 console.error("Error fetching or processing CSV:", error);
             }
