@@ -223,6 +223,15 @@
                     img.onerror = () => {
                         img.src = "product images/placeholder.jpg";
                     };
+
+                    // Adjust image dimensions for mobile devices
+                    const isMobile = window.matchMedia("(max-width: 300px)").matches;
+                    if (isMobile) {
+                        img.style.width = "300px";
+                        img.style.height = "300px";
+                        img.style.objectFit = "cover";
+                    }
+
                     tile.appendChild(img);
 
                     if (!affiliateLink) {
