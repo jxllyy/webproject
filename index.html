@@ -191,40 +191,51 @@
 
     <script>
         const gridContainer = document.getElementById("grid-container");
-
+    
         const host = window.location.host;
         const csvUrl = host === "127.0.0.1:5500"
             ? "https://docs.google.com/spreadsheets/d/17W9pOU5n4GCEb0WBQ0O2QecztUB2djmRxwk9tCJNDcI/export?format=csv"
             : "data.csv";
-
+    
         async function fetchAndProcessCSV() {
             try {
                 const response = await fetch(csvUrl);
                 if (!response.ok) throw new Error("Failed to fetch CSV file");
                 const csvText = await response.text();
-
+    
                 const rows = csvText.split("\n").map(row => row.split(","));
                 const validRows = rows.filter(row => row[0]?.trim());
                 gridContainer.innerHTML = ""; // Clear placeholders
-
+    
+                const promises = []; // für die kleinen Bilder
+                const tileWrappers = []; // um später die großen zu ersetzen
+    
                 validRows.forEach((row, index) => {
                     const [productName, fallbackLink, affiliateLink, imageFile] = row.map(cell => cell.trim());
-
+    
                     const tileWrapper = document.createElement("div");
                     tileWrapper.className = "tile-wrapper";
-
+    
                     const tile = document.createElement("div");
                     tile.className = "tile";
-
+    
                     const img = document.createElement("img");
                     img.loading = "lazy";
-                    img.src = `product images/${imageFile || `product${index + 1}.jpg`}`;
+                    img.src = `product images/smaller/${imageFile || `product${index + 1}.jpg`}`;
                     img.alt = productName || `Product Image ${index + 1}`;
-                    img.onerror = () => {
-                        img.src = "product images/placeholder.jpg";
-                    };
+    
+                    // Promise, das resolved wenn kleines Bild geladen ist
+                    const imgPromise = new Promise(resolve => {
+                        img.onload = () => resolve();
+                        img.onerror = () => {
+                            img.src = "product images/placeholder.jpg";
+                            resolve();
+                        };
+                    });
+                    promises.push(imgPromise);
+    
                     tile.appendChild(img);
-
+    
                     if (!affiliateLink) {
                         const overlay = document.createElement("div");
                         overlay.style.position = "absolute";
@@ -241,26 +252,47 @@
                         overlay.textContent = fallbackLink ? "no aff. link" : "no aff. & prod. link";
                         tile.appendChild(overlay);
                     }
+    
                     tile.addEventListener("click", () => {
                         const link = affiliateLink || fallbackLink || "https://www.amazon.com";
                         window.open(link, "_blank");
                     });
-
+    
                     const nameBox = document.createElement("div");
                     nameBox.className = "product-name-box";
                     nameBox.textContent = productName;
-
+    
                     tileWrapper.appendChild(tile);
                     tileWrapper.appendChild(nameBox);
                     gridContainer.appendChild(tileWrapper);
+    
+                    tileWrappers.push({ tile, imageFile, index }); // speichern für große Bilder
                 });
+    
+                // Warten bis alle kleinen Bilder geladen sind
+                await Promise.all(promises);
+    
+                // Danach große Bilder nachladen
+                tileWrappers.forEach(({ tile, imageFile, index }) => {
+                    const bigImg = new Image();
+                    bigImg.src = `product images/${imageFile || `product${index + 1}.jpg`}`;
+                    bigImg.onload = () => {
+                        const imgElement = tile.querySelector("img");
+                        imgElement.src = bigImg.src;
+                    };
+                    bigImg.onerror = () => {
+                        // Bei Fehler einfach nichts tun, kleines Bild bleibt
+                    };
+                });
+    
             } catch (error) {
                 console.error("Error fetching or processing CSV:", error);
             }
         }
-
+    
         fetchAndProcessCSV();
     </script>
+    
 
     <footer style="margin-top: 180px; text-align: center; font-size: 14px; color: rgb(80, 80, 80); padding-bottom: 20px;">
         <a href="privacy.html" style="color: gray; text-decoration: none; margin-right: 15px;">Privacy Policy</a>
