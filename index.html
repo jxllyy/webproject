@@ -208,7 +208,7 @@
                 gridContainer.innerHTML = ""; // Clear placeholders
 
                 validRows.forEach((row, index) => {
-                    const [productName, fallbackLink, affiliateLink] = row.map(cell => cell.trim());
+                    const [productName, fallbackLink, affiliateLink, imageFile] = row.map(cell => cell.trim());
 
                     const tileWrapper = document.createElement("div");
                     tileWrapper.className = "tile-wrapper";
@@ -218,7 +218,7 @@
 
                     const img = document.createElement("img");
                     img.loading = "lazy";
-                    img.src = `product images/product${index + 1}.jpg`;
+                    img.src = `product images/${imageFile || `product${index + 1}.jpg`}`;
                     img.alt = productName || `Product Image ${index + 1}`;
                     img.onerror = () => {
                         img.src = "product images/placeholder.jpg";
