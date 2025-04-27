@@ -6,7 +6,7 @@
     <title>Privacy Policy</title>
     <style>
         body {
-            background-color: #17162b;
+            background-color: #1b1a31;
             color: #ffffff;
             font-family: 'Montserrat', Arial, sans-serif;
             margin: 0;
@@ -19,79 +19,58 @@
         }
 
         .content {
-            flex: 1; /* Ensures content takes up available space */
+            flex: 1;
             max-width: 900px;
             margin-top: 20px;
             color: #ffffff;
         }
 
-        .profile img {
+        .logo {
             width: 100%;
             max-width: 600px;
             height: auto;
-            margin-bottom: 15px;
-            margin-top: 30px;
+            margin: 40px auto 20px auto;
+            display: block;
             border-radius: 0;
-            aspect-ratio: 914 / 249; /* Updated aspect ratio */
+            aspect-ratio: 914 / 249; /* Seitenverhältnis bleibt erhalten */
         }
 
         footer {
-            margin-top: 100px; /* Reduced from 140px to 100px */
+            margin-top: 100px;
             text-align: center;
             font-size: 14px;
             color: rgb(80, 80, 80);
-            font-family: 'Montserrat', Arial, sans-serif; /* Match index.html */
+            font-family: 'Montserrat', Arial, sans-serif;
             padding-bottom: 20px;
         }
 
-        .logo-wrapper {
-            width: 100%;
-            max-width: 914px;
-            height: 189px; /* Default height */
-            overflow: hidden;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .logo {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
         @media (max-width: 768px) {
-            .logo-wrapper {
-                height: 174px; /* Reduced height by 15px for mobile */
+            .logo {
+                margin-top: 20px;
+                margin-bottom: 10px;
             }
         }
 
         @media (min-width: 1024px) {
-            .logo-wrapper {
-                height: 219px; /* Increased height by 15px for desktop */
+            .logo {
+                margin-top: 30px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="profile">
-        <a href="/">
-            <div class="logo-wrapper">
-                <img src="logo.png" alt="Profilbild" class="logo" loading="eager" width="914" height="189">
-            </div>
-        </a>
-        <p style="font-weight: bold; text-align: center; margin-top: 20px; max-width: 900px;">Privacy Policy</p>
-    </div>
+    <a href="/">
+        <img src="logo.png" alt="Logo" class="logo" loading="eager" width="914" height="249">
+    </a>
+
     <div class="content" id="privacy-content">
         <!-- Der Inhalt wird hier dynamisch geladen -->
     </div>
+
     <script>
-        // Laden und Anzeigen des Inhalts von privacypolicy.txt
         fetch('privacypolicy.txt')
             .then(response => response.text())
             .then(data => {
-                // Preserve line breaks by replacing newlines with <br> tags
                 document.getElementById('privacy-content').innerHTML = data.replace(/\n/g, '<br>');
             })
             .catch(error => {
@@ -99,7 +78,8 @@
                 document.getElementById('privacy-content').textContent = 'Die Datenschutzerklärung konnte nicht geladen werden.';
             });
     </script>
-    <footer style="margin-top: 100px; text-align: center; font-size: 14px; color: rgb(80, 80, 80); padding-bottom: 20px;">
+
+    <footer>
         <a href="/privacy.html" style="color: gray; text-decoration: none; margin-right: 15px;">Privacy Policy</a>
         <a href="/legal.html" style="color: gray; text-decoration: none;">Legal Notice</a>
     </footer>

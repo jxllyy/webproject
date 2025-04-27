@@ -5,88 +5,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Legal Notice</title>
     <style>
-    body {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        min-height: 100vh;
-        margin: 0;
-        padding: 0 15px;
-        background-color: #17162b;
-        color: #ffffff;
-        font-family: 'Montserrat', Arial, sans-serif;
-        box-sizing: border-box;
-    }
-
-    .profile img {
-        width: 100%;
-        max-width: 600px;
-        height: auto;
-        margin-bottom: 7px; /* Halbierter Abstand nach unten */
-        margin-top: 15px; /* Halbierter Abstand nach oben */
-        border-radius: 0;
-        aspect-ratio: 914 / 249;
-    }
-
-    .logo-wrapper {
-        width: 100%;
-        max-width: 914px;
-        height: 189px;
-        overflow: hidden;
-        margin: 0 auto;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .logo {
-        width: 100%;
-        height: auto;
-        display: block;
-    }
-
-    @media (max-width: 768px) {
-        .logo-wrapper {
-            height: 174px;
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0 15px;
+            background-color: #1b1a31;
+            color: #ffffff;
+            font-family: 'Montserrat', Arial, sans-serif;
+            box-sizing: border-box;
         }
-        footer {
-            margin-top: 1119px;
+
+        /* Container für das Logo */
+        .logo {
+            width: 100%;
+            max-width: 700px; /* gleiche Maximalbreite wie auf der Index-Seite */
+            height: 189px; /* gleiche Höhe wie auf der Index-Seite */
+            margin: 30px auto; /* Zentrieren und Abstand oben und unten */
+            position: relative;
         }
+
+        /* Bild innerhalb des Containers */
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Das Bild wird in den Container eingefügt, ohne das Seitenverhältnis zu verändern */
+            display: block;
+
+        }
+
+        /* Styling des Textes */
         .content {
-            margin-bottom: 100px;
+            flex: 1;
+            max-width: 900px;
+            margin-top: 20px;
+            color: #ffffff;
         }
-    }
 
-    @media (min-width: 1024px) {
-        .logo-wrapper {
-            height: 219px;
+        footer {
+            margin-top: auto;
+            text-align: center;
+            font-size: 14px;
+            color: rgb(80, 80, 80);
+            font-family: 'Montserrat', Arial, sans-serif;
+            padding-bottom: 20px;
         }
-    }
 
-    .content {
-        flex: 1;
-        max-width: 900px;
-        margin-top: 20px;
-        color: #ffffff;
-    }
+        /* Mobile */
+        @media (max-width: 768px) {
+            .logo {
+                height: 174px; /* Kleine Anpassung der Höhe auf mobilen Geräten */
+            }
+        }
 
-    footer {
-        margin-top: auto;
-        text-align: center;
-        font-size: 14px;
-        color: rgb(80, 80, 80);
-        font-family: 'Montserrat', Arial, sans-serif;
-        padding-bottom: 20px;
-    }
-</style>
-
+        @media (min-width: 1024px) {
+            /* Für größere Bildschirme bleibt die Höhe des Logos gleich */
+            .logo {
+                height: 189px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="profile">
         <a href="/">
-            <div class="logo-wrapper">
-                <img src="logo.png" alt="Profilbild" class="logo" loading="eager" width="914" height="189">
+            <div class="logo">
+                <img src="logo.png" alt="Profilbild" loading="eager" width="914" height="189">
             </div>
         </a>
     </div>
