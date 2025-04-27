@@ -22,14 +22,21 @@
       box-sizing: border-box;
     }
 
+    .logo-container {
+        width: 100%;
+        max-width: 600px; /* Gleiche Maximalbreite wie in der Privacy Policy */
+        height: 180px; /* Höhe des Logos basierend auf dem Seitenverhältnis */
+        margin: 40px auto 0px auto;
+        display: block;
+        border-radius: 0;
+    }
+
     .logo {
-      width: 100%;
-      max-width: 600px;
-      height: auto;
-      margin: 30px auto 10px auto;
-      display: block;
-      border-radius: 0;
-      aspect-ratio: 914 / 249;
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 0;
+        aspect-ratio: 914 / 249; /* Seitenverhältnis bleibt erhalten */
     }
 
     .disclaimer {
@@ -38,7 +45,7 @@
       font-weight: normal;
       color: gray;
       margin-top: 0;
-      margin-bottom: 30px;
+      margin-bottom: 60px;
       text-align: center;
     }
 
@@ -156,14 +163,13 @@
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .logo {
-        margin-top: 10px;
-        margin-bottom: 10px;
+      .logo-container {
+        height: 120px;
       }
 
       .search-bar {
         margin-top: 0;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
       }
     }
 
@@ -182,7 +188,9 @@
 <body>
 
   <a href="/">
-    <img src="logo.png" alt="Logo" class="logo" loading="eager" width="914" height="249">
+      <div class="logo-container">
+          <img src="logo.png" alt="Logo" class="logo" loading="eager" width="914" height="249">
+      </div>
   </a>
 
   <p class="disclaimer">As an Amazon Associate, I earn from qualifying purchases.</p>

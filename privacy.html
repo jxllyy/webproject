@@ -18,11 +18,18 @@
             box-sizing: border-box;
         }
 
+        .logo-container {
+            width: 100%;
+            max-width: 600px; /* Gleiche Maximalbreite wie in der Privacy Policy */
+            height: 200px; /* Höhe des Logos basierend auf dem Seitenverhältnis */
+            margin: 40px auto 0px auto;
+            display: block;
+            border-radius: 0;
+        }
+
         .logo {
             width: 100%;
-            max-width: 600px;
             height: auto;
-            margin: 40px auto 20px auto;
             display: block;
             border-radius: 0;
             aspect-ratio: 914 / 249; /* Seitenverhältnis bleibt erhalten */
@@ -44,23 +51,24 @@
             padding-bottom: 20px;
         }
 
+        /* Mobile */
         @media (max-width: 768px) {
-            .logo {
-                margin-top: 20px;
-                margin-bottom: 10px;
+            .logo-container {
+                height: 140px;
             }
         }
 
+        /* Desktop */
         @media (min-width: 1024px) {
-            .logo {
-                margin-top: 30px;
-            }
+            
         }
     </style>
 </head>
 <body>
     <a href="/">
-        <img src="logo.png" alt="Logo" class="logo" loading="eager" width="914" height="249">
+        <div class="logo-container">
+            <img src="logo.png" alt="Logo" class="logo" loading="eager" width="914" height="249">
+        </div>
     </a>
 
     <div class="content" id="privacy-content">
