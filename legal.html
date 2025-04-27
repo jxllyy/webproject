@@ -6,38 +6,28 @@
     <title>Legal Notice</title>
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 0 15px;
             background-color: #1b1a31;
             color: #ffffff;
             font-family: 'Montserrat', Arial, sans-serif;
+            margin: 0;
+            padding: 0 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
             box-sizing: border-box;
         }
 
-        /* Container für das Logo */
         .logo {
             width: 100%;
-            max-width: 700px; /* gleiche Maximalbreite wie auf der Index-Seite */
-            height: 189px; /* gleiche Höhe wie auf der Index-Seite */
-            margin: 30px auto; /* Zentrieren und Abstand oben und unten */
-            position: relative;
-        }
-
-        /* Bild innerhalb des Containers */
-        .logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* Das Bild wird in den Container eingefügt, ohne das Seitenverhältnis zu verändern */
+            max-width: 600px; /* Gleiche Maximalbreite wie in der Privacy Policy */
+            height: auto;
+            margin: 40px auto 20px auto;
             display: block;
-
+            border-radius: 0;
+            aspect-ratio: 914 / 249; /* Seitenverhältnis bleibt erhalten */
         }
 
-        /* Styling des Textes */
         .content {
             flex: 1;
             max-width: 900px;
@@ -46,7 +36,7 @@
         }
 
         footer {
-            margin-top: auto;
+            margin-top: 100px;
             text-align: center;
             font-size: 14px;
             color: rgb(80, 80, 80);
@@ -54,29 +44,25 @@
             padding-bottom: 20px;
         }
 
-        /* Mobile */
         @media (max-width: 768px) {
             .logo {
-                height: 174px; /* Kleine Anpassung der Höhe auf mobilen Geräten */
+                margin-top: 20px;
+                margin-bottom: 10px;
             }
         }
 
         @media (min-width: 1024px) {
-            /* Für größere Bildschirme bleibt die Höhe des Logos gleich */
             .logo {
-                height: 189px;
+                margin-top: 30px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="profile">
-        <a href="/">
-            <div class="logo">
-                <img src="logo.png" alt="Profilbild" loading="eager" width="914" height="189">
-            </div>
-        </a>
-    </div>
+    <a href="/">
+        <img src="logo.png" alt="Logo" class="logo" loading="eager" width="914" height="249">
+    </a>
+
     <div class="content">
         <p><strong>Legal Notice</strong></p>
         <p>Information in accordance with Section 5 TMG:</p>
@@ -85,8 +71,9 @@
         <p>Responsible for content according to § 55 Abs. 2 RStV (German Interstate Media Treaty):<br />Nick Baumgardt, address as above</p>
         <p><strong>Disclaimer:</strong></p>
         <p>This website contains affiliate links, including participation in the Amazon EU Associates Program. If you click on one of these links and make a purchase, we may receive a small commission at no additional cost to you.</p>
-        <p>All trademarks and product images are the property of their respective owners..</p>
+        <p>All trademarks and product images are the property of their respective owners.</p>
     </div>
+
     <footer>
         <a href="/privacy.html" style="color: gray; text-decoration: none; margin-right: 15px;">Privacy Policy</a>
         <a href="/legal.html" style="color: gray; text-decoration: none;">Legal Notice</a>
