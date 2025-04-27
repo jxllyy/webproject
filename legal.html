@@ -5,81 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Legal Notice</title>
     <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between; /* Ensure footer stays at the bottom */
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 0 15px;
-            background-color: #17162b;
-            color: #ffffff;
-            font-family: 'Montserrat', Arial, sans-serif;
-            box-sizing: border-box;
-        }
+    body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0 15px;
+        background-color: #17162b;
+        color: #ffffff;
+        font-family: 'Montserrat', Arial, sans-serif;
+        box-sizing: border-box;
+    }
 
-        .profile img {
-            width: 100%;
-            max-width: 600px;
-            height: auto;
-            margin-bottom: 15px;
-            margin-top: 30px;
-            border-radius: 0;
-            aspect-ratio: 914 / 249;
-        }
+    .profile img {
+        width: 100%;
+        max-width: 600px;
+        height: auto;
+        margin-bottom: 7px; /* Halbierter Abstand nach unten */
+        margin-top: 15px; /* Halbierter Abstand nach oben */
+        border-radius: 0;
+        aspect-ratio: 914 / 249;
+    }
 
+    .logo-wrapper {
+        width: 100%;
+        max-width: 914px;
+        height: 189px;
+        overflow: hidden;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .logo {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    @media (max-width: 768px) {
         .logo-wrapper {
-            width: 100%;
-            max-width: 914px;
-            height: 189px; /* Default height */
-            overflow: hidden;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            height: 174px;
         }
-
-        .logo {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        @media (max-width: 768px) {
-            .logo-wrapper {
-                height: 174px; /* Reduced height by 15px for mobile */
-            }
-            footer {
-                margin-top: 1119px; /* Quadrupled the margin for mobile devices */
-            }
-            .content {
-                margin-bottom: 100px; /* Reduced from 200px to 100px */
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .logo-wrapper {
-                height: 219px; /* Increased height by 15px for desktop */
-            }
-        }
-
-        .content {
-            flex: 1; /* Allow content to take up available space */
-            max-width: 900px;
-            margin-top: 20px;
-            color: #ffffff;
-        }
-
         footer {
-            margin-top: auto; /* Ensure footer stays at the bottom without extra space */
-            text-align: center;
-            font-size: 14px;
-            color: rgb(80, 80, 80);
-            font-family: 'Montserrat', Arial, sans-serif;
-            padding-bottom: 20px;
+            margin-top: 1119px;
         }
-    </style>
+        .content {
+            margin-bottom: 100px;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .logo-wrapper {
+            height: 219px;
+        }
+    }
+
+    .content {
+        flex: 1;
+        max-width: 900px;
+        margin-top: 20px;
+        color: #ffffff;
+    }
+
+    footer {
+        margin-top: auto;
+        text-align: center;
+        font-size: 14px;
+        color: rgb(80, 80, 80);
+        font-family: 'Montserrat', Arial, sans-serif;
+        padding-bottom: 20px;
+    }
+</style>
+
 </head>
 <body>
     <div class="profile">
