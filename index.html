@@ -24,8 +24,8 @@
 
     .logo-container {
         width: 100%;
-        max-width: 600px; /* Gleiche Maximalbreite wie in der Privacy Policy */
-        height: 180px; /* Höhe des Logos basierend auf dem Seitenverhältnis */
+        max-width: 600px;
+        height: 180px;
         margin: 40px auto 0px auto;
         display: block;
         border-radius: 0;
@@ -36,7 +36,7 @@
         height: auto;
         display: block;
         border-radius: 0;
-        aspect-ratio: 914 / 249; /* Seitenverhältnis bleibt erhalten */
+        aspect-ratio: 914 / 249;
     }
 
     .disclaimer {
@@ -96,7 +96,7 @@
       gap: 15px;
       max-width: 900px;
       width: 100%;
-      margin-bottom: 100px;  /* Add this line */
+      margin-bottom: 100px;
     }
 
     .tile-wrapper {
@@ -151,7 +151,7 @@
     }
  
     footer {
-      margin-top: auto;  /* Changed from margin-top: 100px */
+      margin-top: auto;
       text-align: center;
       font-size: 14px;
       color: rgb(80, 80, 80);
@@ -244,6 +244,46 @@
       ? "https://docs.google.com/spreadsheets/d/17W9pOU5n4GCEb0WBQ0O2QecztUB2djmRxwk9tCJNDcI/export?format=csv"
       : "data.csv";
 
+    // Funktion zum Öffnen der Amazon App mit Fallbacks
+    function openAmazonLink(amazonUrl) {
+      // Prüfe ob im TikTok Browser
+      const isTikTokBrowser = /tiktok|musically/i.test(navigator.userAgent);
+      
+      // Funktion zum Versuch, die App zu öffnen
+      function tryOpenApp() {
+        // 1. Versuch: Android Intent
+        if (/android/i.test(navigator.userAgent)) {
+          const intentLink = `intent://${amazonUrl.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.amazon.mShop.android.shopping;end`;
+          window.location.href = intentLink;
+        }
+        
+        // 2. Versuch: Amazon Deep Link
+        setTimeout(() => {
+          if (!document.hidden) {
+            const appLink = amazonUrl.replace(/^https?:\/\/(www\.)?amazon\./, 'amazon://');
+            window.location.href = appLink;
+          }
+        }, 200);
+        
+        // 3. Fallback: Normale URL
+        setTimeout(() => {
+          if (!document.hidden) {
+            window.open(amazonUrl, "_blank");
+          }
+        }, 500);
+      }
+      
+      // Im TikTok Browser bestätigen lassen
+      if (isTikTokBrowser) {
+        const shouldOpen = confirm("For the best experience, this link will open in the Amazon app. Continue?");
+        if (shouldOpen) {
+          tryOpenApp();
+        }
+      } else {
+        tryOpenApp();
+      }
+    }
+
     async function fetchAndProcessCSV() {
       try {
         const response = await fetch(csvUrl);
@@ -310,7 +350,7 @@
 
           tile.addEventListener("click", () => {
             const link = affiliateLink || fallbackLink || "https://www.amazon.com";
-            window.open(link, "_blank");
+            openAmazonLink(link);
           });
 
           const nameBox = document.createElement("div");
