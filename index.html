@@ -149,7 +149,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
- 
+
     footer {
       margin-top: auto;  /* Changed from margin-top: 100px */
       text-align: center;
@@ -189,6 +189,35 @@
       footer {
         margin-top: 100px;
       }
+    }
+
+    /* Pop-up styling */
+    #popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      display: none;
+      z-index: 9999;
+      text-align: center;
+    }
+
+    #popup button {
+      margin-top: 10px;
+      background-color: #2f2f2f;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+
+    #popup button:hover {
+      background-color: #444;
     }
   </style>
 </head>
@@ -235,7 +264,29 @@
     </div>
   </div>
 
+  <!-- Pop-up element -->
+  <div id="popup">
+    <p>For better experience, open this website in your browser.</p>
+    <button onclick="closePopup()">Close</button>
+  </div>
+
   <script>
+    // TikTok In-App Browser Detection
+    function isTikTokBrowser() {
+      const ua = navigator.userAgent || navigator.vendor || window.opera;
+      return ua.includes('TikTok') || ua.includes('com.zhiliaoapp.musically');
+    }
+
+    // Show popup if TikTok browser is detected
+    if (isTikTokBrowser()) {
+      document.getElementById("popup").style.display = "block";
+    }
+
+    // Function to close the pop-up
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+    }
+
     const gridContainer = document.getElementById("grid-container");
     const searchInput = document.getElementById("search-input");
 
