@@ -291,9 +291,25 @@
 
           tile.appendChild(img);
 
-          // Update tile click event to open Amazon app or website
+          if (!affiliateLink) {
+            const overlay = document.createElement("div");
+            overlay.style.position = "absolute";
+            overlay.style.top = "0";
+            overlay.style.left = "0";
+            overlay.style.width = "100%";
+            overlay.style.height = "100%";
+            overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+            overlay.style.color = "white";
+            overlay.style.display = "flex";
+            overlay.style.justifyContent = "center";
+            overlay.style.alignItems = "center";
+            overlay.style.fontSize = "14px";
+            overlay.textContent = fallbackLink ? "no aff. link" : "no aff. & prod. link";
+            tile.appendChild(overlay);
+          }
+
           tile.addEventListener("click", () => {
-            const link = affiliateLink || fallbackLink || "amazon://";
+            const link = affiliateLink || fallbackLink || "https://www.amazon.com";
             window.open(link, "_blank");
           });
 
