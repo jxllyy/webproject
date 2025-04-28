@@ -309,24 +309,7 @@
           }
 
           tile.addEventListener("click", () => {
-            const link = affiliateLink || fallbackLink || "https://www.amazon.com";
-            
-            // Check if user is on mobile
-            if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-              // Convert https://amazon... to amzn://
-              const amazonAppLink = link.replace('https://', 'amzn://');
-              
-              // Try to open Amazon app first
-              window.location.href = amazonAppLink;
-              
-              // Fallback to web URL after a short delay
-              setTimeout(() => {
-                window.location.href = link;
-              }, 500);
-            } else {
-              // On desktop, open in new tab as before
-              window.open(link, "_blank");
-            }
+            window.open("instagram://help", "_blank");
           });
 
           const nameBox = document.createElement("div");
