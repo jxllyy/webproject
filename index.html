@@ -24,8 +24,8 @@
 
     .logo-container {
         width: 100%;
-        max-width: 600px; /* Gleiche Maximalbreite wie in der Privacy Policy */
-        height: 180px; /* Höhe des Logos basierend auf dem Seitenverhältnis */
+        max-width: 600px;
+        height: 180px;
         margin: 40px auto 0px auto;
         display: block;
         border-radius: 0;
@@ -36,7 +36,7 @@
         height: auto;
         display: block;
         border-radius: 0;
-        aspect-ratio: 914 / 249; /* Seitenverhältnis bleibt erhalten */
+        aspect-ratio: 914 / 249;
     }
 
     .disclaimer {
@@ -96,7 +96,7 @@
       gap: 15px;
       max-width: 900px;
       width: 100%;
-      margin-bottom: 100px;  /* Add this line */
+      margin-bottom: 100px;
     }
 
     .tile-wrapper {
@@ -108,6 +108,7 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       cursor: pointer;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+      position: relative;
     }
 
     .tile-wrapper:hover {
@@ -149,9 +150,49 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
- 
+
+    .app-open-button {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #FF9900;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .tile-wrapper:hover .app-open-button {
+      opacity: 1;
+    }
+
+    .tile-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 40%);
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .tile-wrapper:hover .tile-overlay {
+      opacity: 1;
+    }
+
     footer {
-      margin-top: auto;  /* Changed from margin-top: 100px */
+      margin-top: auto;
       text-align: center;
       font-size: 14px;
       color: rgb(80, 80, 80);
@@ -177,6 +218,12 @@
       .search-bar {
         margin-top: 0;
         margin-bottom: 20px;
+      }
+
+      .app-open-button {
+        padding: 6px 12px;
+        font-size: 12px;
+        bottom: 10px;
       }
     }
 
@@ -235,6 +282,11 @@
     </div>
   </div>
 
+  <footer>
+    <a href="privacy.html" style="color: gray; text-decoration: none; margin-right: 15px;">Privacy Policy</a>
+    <a href="legal.html" style="color: gray; text-decoration: none;">Legal Notice</a>
+  </footer>
+
   <script>
     const gridContainer = document.getElementById("grid-container");
     const searchInput = document.getElementById("search-input");
@@ -243,6 +295,45 @@
     const csvUrl = host === "127.0.0.1:5500"
       ? "https://docs.google.com/spreadsheets/d/17W9pOU5n4GCEb0WBQ0O2QecztUB2djmRxwk9tCJNDcI/export?format=csv"
       : "data.csv";
+
+    function convertToAmazonDeeplink(url) {
+      if (!url) return null;
+      
+      // Extract ASIN from URL if present
+      const asinMatch = url.match(/(?:dp|product|gp\/product)\/([A-Z0-9]{10})/i);
+      const asin = asinMatch ? asinMatch[1] : null;
+      
+      if (asin) {
+        return `com.amazon.mobile.shopping.web://www.amazon.com/dp/${asin}`;
+      }
+      
+      // If no ASIN found, try to convert the URL to a deeplink
+      try {
+        const urlObj = new URL(url);
+        if (urlObj.hostname.includes('amazon.')) {
+          const path = urlObj.pathname;
+          return `com.amazon.mobile.shopping.web://www.amazon.com${path}`;
+        }
+      } catch (e) {
+        console.error("Error converting URL:", e);
+      }
+      
+      return null;
+    }
+
+    function openAppOrFallback(deeplink, fallbackUrl) {
+      // Try to open app directly first
+      if (deeplink) {
+        window.location.href = deeplink;
+      }
+      
+      // Fallback after delay if app didn't open
+      setTimeout(() => {
+        if (!document.hidden) {
+          window.open(fallbackUrl, "_blank");
+        }
+      }, 300);
+    }
 
     async function fetchAndProcessCSV() {
       try {
@@ -291,26 +382,58 @@
 
           tile.appendChild(img);
 
-          if (!affiliateLink) {
-            const overlay = document.createElement("div");
-            overlay.style.position = "absolute";
-            overlay.style.top = "0";
-            overlay.style.left = "0";
-            overlay.style.width = "100%";
-            overlay.style.height = "100%";
-            overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-            overlay.style.color = "white";
-            overlay.style.display = "flex";
-            overlay.style.justifyContent = "center";
-            overlay.style.alignItems = "center";
-            overlay.style.fontSize = "14px";
-            overlay.textContent = fallbackLink ? "no aff. link" : "no aff. & prod. link";
-            tile.appendChild(overlay);
-          }
+          // Create overlay for the "open in app" button
+          const overlay = document.createElement("div");
+          overlay.className = "tile-overlay";
+          tile.appendChild(overlay);
 
-          tile.addEventListener("click", () => {
-            window.location.href = "https://instagram.com";
+          // Create "open in app" button
+          const openButton = document.createElement("button");
+          openButton.className = "app-open-button";
+          openButton.textContent = "In App öffnen";
+          
+          const deeplink = convertToAmazonDeeplink(affiliateLink || fallbackLink);
+          const weblink = affiliateLink || fallbackLink || "https://www.amazon.com";
+
+          // Click handler for the tile
+          tile.addEventListener("click", (e) => {
+            // Don't trigger if clicked on the button
+            if (e.target !== openButton) {
+              openAppOrFallback(deeplink, weblink);
+            }
           });
+
+          // Click handler for the button
+          openButton.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (deeplink) {
+              window.location.href = deeplink;
+              setTimeout(() => {
+                window.open(weblink, "_blank");
+              }, 300);
+            } else {
+              window.open(weblink, "_blank");
+            }
+          });
+
+          tile.appendChild(openButton);
+
+          if (!affiliateLink) {
+            const noLinkOverlay = document.createElement("div");
+            noLinkOverlay.style.position = "absolute";
+            noLinkOverlay.style.top = "0";
+            noLinkOverlay.style.left = "0";
+            noLinkOverlay.style.width = "100%";
+            noLinkOverlay.style.height = "100%";
+            noLinkOverlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+            noLinkOverlay.style.color = "white";
+            noLinkOverlay.style.display = "flex";
+            noLinkOverlay.style.justifyContent = "center";
+            noLinkOverlay.style.alignItems = "center";
+            noLinkOverlay.style.fontSize = "14px";
+            noLinkOverlay.textContent = fallbackLink ? "no aff. link" : "no aff. & prod. link";
+            tile.appendChild(noLinkOverlay);
+          }
 
           const nameBox = document.createElement("div");
           nameBox.className = "product-name-box";
@@ -340,7 +463,7 @@
 
     searchInput.addEventListener("input", () => {
       const searchTerm = searchInput.value.toLowerCase();
-      const tiles = document.querySelectorAll(".tile-wrapper");
+      const tiles = document.querySelectorAll(".tile-wrapper:not(.placeholder)");
 
       tiles.forEach(tile => {
         const productName = tile.querySelector(".product-name-box").textContent.toLowerCase();
@@ -348,10 +471,5 @@
       });
     });
   </script>
-
-  <footer>
-    <a href="privacy.html" style="color: gray; text-decoration: none; margin-right: 15px;">Privacy Policy</a>
-    <a href="legal.html" style="color: gray; text-decoration: none;">Legal Notice</a>
-  </footer>
 </body>
 </html>
