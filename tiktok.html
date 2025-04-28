@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TopFinds</title>
     <link rel="icon" href="logo-squared.jpg" type="image/jpeg">
+    <script>
+        window.onload = function() {
+            const lastVisit = localStorage.getItem('lastTikTokVisit');
+            const currentTime = new Date().getTime();
+            
+            if (lastVisit && (currentTime - parseInt(lastVisit)) < 60000) {
+                window.location.href = 'index.html';
+            }
+            
+            localStorage.setItem('lastTikTokVisit', currentTime.toString());
+        };
+    </script>
     <style>
         body {
             background-color: #ffffff;
