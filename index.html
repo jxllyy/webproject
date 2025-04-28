@@ -8,6 +8,9 @@
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" as="style">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="logo-squared.jpg" type="image/jpeg">
+  <!-- Amazon App Links Meta Tags -->
+  <meta property="al:android:package" content="com.amazon.mShop.android.shopping">
+  <meta property="al:android:app_name" content="Amazon Shopping">
   <style>
     body {
       background-color: #1b1a31;
@@ -24,8 +27,8 @@
 
     .logo-container {
         width: 100%;
-        max-width: 600px; /* Gleiche Maximalbreite wie in der Privacy Policy */
-        height: 180px; /* Höhe des Logos basierend auf dem Seitenverhältnis */
+        max-width: 600px;
+        height: 180px;
         margin: 40px auto 0px auto;
         display: block;
         border-radius: 0;
@@ -36,7 +39,7 @@
         height: auto;
         display: block;
         border-radius: 0;
-        aspect-ratio: 914 / 249; /* Seitenverhältnis bleibt erhalten */
+        aspect-ratio: 914 / 249;
     }
 
     .disclaimer {
@@ -96,7 +99,7 @@
       gap: 15px;
       max-width: 900px;
       width: 100%;
-      margin-bottom: 100px;  /* Add this line */
+      margin-bottom: 100px;
     }
 
     .tile-wrapper {
@@ -151,7 +154,7 @@
     }
  
     footer {
-      margin-top: auto;  /* Changed from margin-top: 100px */
+      margin-top: auto;
       text-align: center;
       font-size: 14px;
       color: rgb(80, 80, 80);
@@ -236,6 +239,46 @@
   </div>
 
   <script>
+    // Funktion zur Handhabung von Amazon-Links
+    function handleAmazonClick(e, url) {
+      e.preventDefault();
+      
+      // Erkenne TikTok-Browser
+      const isTikTokBrowser = navigator.userAgent.match(/TikTok/);
+      
+      // Extrahiere ASIN oder Produkt-ID aus der URL
+      let asin = '';
+      try {
+        const amazonUrl = new URL(url);
+        const pathParts = amazonUrl.pathname.split('/dp/');
+        if (pathParts.length > 1) {
+          asin = pathParts[1].split('/')[0].split('?')[0];
+        } else if (amazonUrl.pathname.includes('/gp/product/')) {
+          asin = amazonUrl.pathname.split('/gp/product/')[1].split('/')[0];
+        }
+      } catch (e) {
+        console.error('Error parsing URL:', e);
+      }
+      
+      // Wenn wir eine ASIN haben und im TikTok-Browser sind, versuche die App zu öffnen
+      if (isTikTokBrowser && asin) {
+        const appUrl = `amzn://www.amazon.com/dp/${asin}`;
+        
+        // Versuche die App zu öffnen
+        window.location.href = appUrl;
+        
+        // Fallback nach 500ms wenn die App nicht geöffnet wurde
+        setTimeout(() => {
+          if (!document.hidden) {
+            window.open(url, '_blank');
+          }
+        }, 500);
+      } else {
+        // Normales Verhalten für andere Browser
+        window.open(url, '_blank');
+      }
+    }
+
     const gridContainer = document.getElementById("grid-container");
     const searchInput = document.getElementById("search-input");
 
@@ -308,9 +351,16 @@
             tile.appendChild(overlay);
           }
 
-          tile.addEventListener("click", () => {
+          tile.addEventListener("click", (e) => {
             const link = affiliateLink || fallbackLink || "https://www.amazon.com";
-            window.open(link, "_blank");
+            
+            // Wenn es ein Amazon-Link ist, verwende unsere spezielle Handler-Funktion
+            if (link.includes('amazon.com') || link.includes('amzn.to')) {
+              handleAmazonClick(e, link);
+            } else {
+              // Normales Verhalten für Nicht-Amazon-Links
+              window.open(link, "_blank");
+            }
           });
 
           const nameBox = document.createElement("div");
@@ -352,8 +402,7 @@
 
   <footer>
     <a href="privacy.html" style="color: gray; text-decoration: none; margin-right: 15px;">Privacy Policy</a>
-    <a href="legal.html" style="color: gray; text-decoration: none; margin-right: 15px;">Legal Notice</a>
-    <a href="testsite.html" style="color: gray; text-decoration: none;">Testsite</a>
+    <a href="legal.html" style="color: gray; text-decoration: none;">Legal Notice</a>
   </footer>
 </body>
 </html>
