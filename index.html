@@ -245,14 +245,14 @@
       : "data.csv";
 
     function convertToAmazonSchemeLink(url) {
-      if (!url) return "amazon://";
+      if (!url) return "amzn://";
       
       // Extract ASIN from URL if present
       const asinMatch = url.match(/(?:dp|product|gp\/product)\/([A-Z0-9]{10})/i);
       const asin = asinMatch ? asinMatch[1] : null;
       
       if (asin) {
-        return `amazon://detail?asin=${asin}`;
+        return `amzn://detail?asin=${asin}`;
       }
       
       // If no ASIN found, try to convert the URL to a scheme link
@@ -260,13 +260,13 @@
         const urlObj = new URL(url);
         if (urlObj.hostname.includes('amazon.')) {
           const path = urlObj.pathname;
-          return `amazon://${path.replace(/^\//, '')}`;
+          return `amzn://${path.replace(/^\//, '')}`;
         }
       } catch (e) {
         console.error("Error converting URL:", e);
       }
       
-      return "amazon://";
+      return "amzn://";
     }
 
     async function fetchAndProcessCSV() {
