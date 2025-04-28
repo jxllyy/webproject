@@ -190,36 +190,6 @@
         margin-top: 100px;
       }
     }
-
-    /* Popup styles */
-    .popup {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: white;
-      padding: 20px;
-      border-radius: 8px;
-      z-index: 1000;
-      color: black;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    }
-
-    .popup-content {
-      text-align: center;
-    }
-
-    .close-button {
-      display: block;
-      margin-top: 10px;
-      padding: 5px 15px;
-      background-color: #2f2f2f;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
   </style>
 </head>
 <body>
@@ -265,28 +235,31 @@
     </div>
   </div>
 
-  <div class="popup" id="welcome-popup">
-    <div class="popup-content">
-      <p>Hallo!</p>
-      <button class="close-button" onclick="closePopup()">Schließen</button>
-    </div>
-  </div>
-
   <script>
-    // Replace the existing popup code with this:
-    window.onload = function() {
-      const referrer = document.referrer.toLowerCase();
-      if (referrer.includes('tiktok.com')) {
-        document.getElementById('welcome-popup').style.display = 'block';
-      }
-    }
-
-    function closePopup() {
-      document.getElementById('welcome-popup').style.display = 'none';
-    }
-
     const gridContainer = document.getElementById("grid-container");
     const searchInput = document.getElementById("search-input");
+
+    function isMobile() {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
+    function getAmazonAppUrl(webUrl) {
+      if (!webUrl.includes('amazon')) return webUrl;
+      
+      // Extract ASIN if present
+      const asinMatch = webUrl.match(/\/dp\/([A-Z0-9]{10})/);
+      const asin = asinMatch ? asinMatch[1] : null;
+      
+      if (asin) {
+        if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+          return `com.amazon.mobile.shopping://amazon.com/dp/${asin}`;
+        } else if (/Android/i.test(navigator.userAgent)) {
+          return `amzn://amazon.com/dp/${asin}`;
+        }
+      }
+      
+      return webUrl;
+    }
 
     const host = window.location.host;
     const csvUrl = host === "127.0.0.1:5500"
@@ -359,7 +332,16 @@
 
           tile.addEventListener("click", () => {
             const link = affiliateLink || fallbackLink || "https://www.amazon.com";
-            window.open(link, "_blank");
+            if (isMobile()) {
+              const appUrl = getAmazonAppUrl(link);
+              // Try to open in app first, fall back to web if app not installed
+              setTimeout(() => {
+                window.location.href = link;
+              }, 500);
+              window.location.href = appUrl;
+            } else {
+              window.open(link, "_blank");
+            }
           });
 
           const nameBox = document.createElement("div");
