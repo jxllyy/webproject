@@ -244,31 +244,6 @@
       ? "https://docs.google.com/spreadsheets/d/17W9pOU5n4GCEb0WBQ0O2QecztUB2djmRxwk9tCJNDcI/export?format=csv"
       : "data.csv";
 
-    function convertToAmazonDeeplink(url) {
-      if (!url) return "com.amazon.mobile.shopping.web://";
-      
-      // Extract ASIN from URL if present
-      const asinMatch = url.match(/(?:dp|product|gp\/product)\/([A-Z0-9]{10})/i);
-      const asin = asinMatch ? asinMatch[1] : null;
-      
-      if (asin) {
-        return `com.amazon.mobile.shopping.web://www.amazon.com/dp/${asin}`;
-      }
-      
-      // If no ASIN found, try to convert the URL to a deeplink
-      try {
-        const urlObj = new URL(url);
-        if (urlObj.hostname.includes('amazon.')) {
-          const path = urlObj.pathname;
-          return `com.amazon.mobile.shopping.web://www.amazon.com${path}`;
-        }
-      } catch (e) {
-        console.error("Error converting URL:", e);
-      }
-      
-      return "com.amazon.mobile.shopping.web://www.amazon.com";
-    }
-
     async function fetchAndProcessCSV() {
       try {
         const response = await fetch(csvUrl);
@@ -334,19 +309,24 @@
           }
 
           tile.addEventListener("click", () => {
-            // Use Amazon deeplink first, fallback to regular links
-            const deeplink = convertToAmazonDeeplink(affiliateLink || fallbackLink);
+            const link = affiliateLink || fallbackLink || "https://www.amazon.com";
             
-            // Try to open the app with deeplink
-            window.location.href = deeplink;
-            
-            // Fallback to regular link if deeplink doesn't work
-            setTimeout(() => {
-              if (!document.hidden) {
-                const link = affiliateLink || fallbackLink || "https://www.amazon.com";
-                window.open(link, "_blank");
-              }
-            }, 500);
+            // Check if user is on mobile
+            if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+              // Convert https://amazon... to amzn://
+              const amazonAppLink = link.replace('https://', 'amzn://');
+              
+              // Try to open Amazon app first
+              window.location.href = amazonAppLink;
+              
+              // Fallback to web URL after a short delay
+              setTimeout(() => {
+                window.location.href = link;
+              }, 500);
+            } else {
+              // On desktop, open in new tab as before
+              window.open(link, "_blank");
+            }
           });
 
           const nameBox = document.createElement("div");
