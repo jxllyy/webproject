@@ -244,29 +244,29 @@
       ? "https://docs.google.com/spreadsheets/d/17W9pOU5n4GCEb0WBQ0O2QecztUB2djmRxwk9tCJNDcI/export?format=csv"
       : "data.csv";
 
-    function convertToAmazonSchemeLink(url) {
-      if (!url) return "amzn://";
+    function convertToAmazonDeeplink(url) {
+      if (!url) return "com.amazon.mobile.shopping.web://";
       
       // Extract ASIN from URL if present
       const asinMatch = url.match(/(?:dp|product|gp\/product)\/([A-Z0-9]{10})/i);
       const asin = asinMatch ? asinMatch[1] : null;
       
       if (asin) {
-        return `amzn://detail?asin=${asin}`;
+        return `com.amazon.mobile.shopping.web://www.amazon.com/dp/${asin}`;
       }
       
-      // If no ASIN found, try to convert the URL to a scheme link
+      // If no ASIN found, try to convert the URL to a deeplink
       try {
         const urlObj = new URL(url);
         if (urlObj.hostname.includes('amazon.')) {
           const path = urlObj.pathname;
-          return `amzn://${path.replace(/^\//, '')}`;
+          return `com.amazon.mobile.shopping.web://www.amazon.com${path}`;
         }
       } catch (e) {
         console.error("Error converting URL:", e);
       }
       
-      return "amzn://";
+      return "com.amazon.mobile.shopping.web://www.amazon.com";
     }
 
     async function fetchAndProcessCSV() {
@@ -334,13 +334,13 @@
           }
 
           tile.addEventListener("click", () => {
-            // Use Amazon scheme link first, fallback to regular links
-            const schemeLink = convertToAmazonSchemeLink(affiliateLink || fallbackLink);
+            // Use Amazon deeplink first, fallback to regular links
+            const deeplink = convertToAmazonDeeplink(affiliateLink || fallbackLink);
             
-            // Try to open the app with scheme link
-            window.location.href = schemeLink;
+            // Try to open the app with deeplink
+            window.location.href = deeplink;
             
-            // Fallback to regular link if scheme doesn't work
+            // Fallback to regular link if deeplink doesn't work
             setTimeout(() => {
               if (!document.hidden) {
                 const link = affiliateLink || fallbackLink || "https://www.amazon.com";
