@@ -312,7 +312,11 @@
             const link = affiliateLink || fallbackLink || "https://www.amazon.com";
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             const finalLink = isMobile ? `com.amazon.mobile.shopping.web://${link}` : link;
-            window.open(finalLink, "_blank");
+            const a = document.createElement('a');
+            a.href = finalLink;
+            a.textContent = 'buy';
+            a.target = '_blank';
+            a.click();
           });
 
           const nameBox = document.createElement("div");
