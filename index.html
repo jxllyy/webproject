@@ -310,13 +310,7 @@
 
           tile.addEventListener("click", () => {
             const link = affiliateLink || fallbackLink || "https://www.amazon.com";
-            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-            const finalLink = isMobile ? `com.amazon.mobile.shopping.web://${link}` : link;
-            const a = document.createElement('a');
-            a.href = finalLink;
-            a.textContent = 'buy';
-            a.target = '_blank';
-            a.click();
+            window.open(link, "_blank");
           });
 
           const nameBox = document.createElement("div");
@@ -358,7 +352,8 @@
 
   <footer>
     <a href="privacy.html" style="color: gray; text-decoration: none; margin-right: 15px;">Privacy Policy</a>
-    <a href="legal.html" style="color: gray; text-decoration: none;">Legal Notice</a>
+    <a href="legal.html" style="color: gray; text-decoration: none; margin-right: 15px;">Legal Notice</a>
+    <a href="testsite.html" style="color: gray; text-decoration: none;">Testsite</a>
   </footer>
 </body>
 </html>
