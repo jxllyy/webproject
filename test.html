@@ -30,17 +30,12 @@
     </style>
 </head>
 <body>
-    <a href="amazon://dp/3XNhNhG" id="amazonAppLink" style="display: none">Amazon App Link</a>
-    <button class="amazon-button" id="amazonButton">Open in Amazon v2</button>
+    <a href="https://www.amazon.com/dp/3XNhNhG" id="amazonAppLink" style="display: none">Amazon App Link</a>
+    <button class="amazon-button" id="amazonButton">Open in Amazon v3</button>
     <script>
         document.getElementById('amazonButton').addEventListener('click', function() {
-            // Click the hidden app link first
-            document.getElementById('amazonAppLink').click();
-            
-            // Fallback to web URL after a small delay
-            setTimeout(function() {
-                window.location.href = 'https://www.amazon.com/dp/3XNhNhG';
-            }, 500);
+            // Universal Link will automatically handle app/web fallback
+            window.location.href = 'https://www.amazon.com/dp/3XNhNhG';
         });
     </script>
 </body>
