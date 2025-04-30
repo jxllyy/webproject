@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -30,18 +30,16 @@
     </style>
 </head>
 <body>
-    <button class="amazon-button" id="amazonButton">Open in Amazon v1</button>
+    <a href="amazon://dp/3XNhNhG" id="amazonAppLink" style="display: none">Amazon App Link</a>
+    <button class="amazon-button" id="amazonButton">Open in Amazon v2</button>
     <script>
         document.getElementById('amazonButton').addEventListener('click', function() {
-            // Amazon product ID from your URL
-            const productId = '3XNhNhG';
-            
-            // Try to open the Amazon app first
-            window.location.href = `amazon://dp/${productId}`;
+            // Click the hidden app link first
+            document.getElementById('amazonAppLink').click();
             
             // Fallback to web URL after a small delay
             setTimeout(function() {
-                window.location.href = `https://www.amazon.com/dp/${productId}`;
+                window.location.href = 'https://www.amazon.com/dp/3XNhNhG';
             }, 500);
         });
     </script>
