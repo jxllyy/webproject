@@ -31,7 +31,7 @@
 </head>
 <body>
 
-<button class="amazon-button" onclick="openAmazon()">Open in Amazon v7</button>
+<button class="amazon-button" onclick="openAmazon()">Open in Amazon v8</button>
 
 <script>
 function openAmazon() {
@@ -50,8 +50,8 @@ function openAmazon() {
     // iOS: Universal Link, öffnet App wenn installiert
     window.location.href = fallbackUrl;
   } else {
-    // Desktop fallback
-    window.location.href = fallbackUrl;
+    // Desktop: open in new tab
+    window.open(fallbackUrl, '_blank');
   }
 }
 </script>
