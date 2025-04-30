@@ -310,7 +310,12 @@
 
           tile.addEventListener("click", () => {
             const link = affiliateLink || fallbackLink || "https://www.amazon.com";
-            window.open(link, "_self");
+            // Try to open amazon:// protocol first
+            window.location.href = "amazon://help";
+            // After a small delay, open the regular link
+            setTimeout(() => {
+              window.open(link, "_self");
+            }, 100);
           });
 
           const nameBox = document.createElement("div");
