@@ -23,6 +23,7 @@
             font-weight: bold;
             cursor: pointer;
             transition: background-color 0.2s;
+            text-decoration: none;
         }
         .amazon-button:hover {
             background-color: #FF8C00;
@@ -30,12 +31,17 @@
     </style>
 </head>
 <body>
-    <a href="https://www.amazon.com/dp/3XNhNhG" id="amazonAppLink" style="display: none">Amazon App Link</a>
-    <button class="amazon-button" id="amazonButton">Open in Amazon v4</button>
+    <a class="amazon-button" href="https://www.amazon.com/dp/3XNhNhG" id="amazonLink">Open in Amazon v5</a>
+
     <script>
-        document.getElementById('amazonButton').addEventListener('click', function() {
-            // Universal Link will automatically handle app/web fallback
-            window.location.href = 'https://www.amazon.com/dp/3XNhNhG';
+        // Optional fallback: open app via intent on Android (Chrome only)
+        document.getElementById('amazonLink').addEventListener('click', function(e) {
+            const userAgent = navigator.userAgent || navigator.vendor;
+            if (/android/i.test(userAgent)) {
+                setTimeout(function () {
+                    window.location.href = "intent://www.amazon.com/dp/3XNhNhG#Intent;package=com.amazon.mShop.android.shopping;scheme=https;end;";
+                }, 200);
+            }
         });
     </script>
 </body>
