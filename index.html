@@ -291,24 +291,26 @@
 
           tile.appendChild(img);
 
-          function tryOpenAmazonApp() {
-            // iOS (including TikTok browser)
-            if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-              window.location.href = "com.amazon.mobile.shopping://";
-            } 
-            // Android
-            else if (/Android/.test(navigator.userAgent)) {
-              window.location.href = "amzn://";
-            }
+          if (!affiliateLink) {
+            const overlay = document.createElement("div");
+            overlay.style.position = "absolute";
+            overlay.style.top = "0";
+            overlay.style.left = "0";
+            overlay.style.width = "100%";
+            overlay.style.height = "100%";
+            overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+            overlay.style.color = "white";
+            overlay.style.display = "flex";
+            overlay.style.justifyContent = "center";
+            overlay.style.alignItems = "center";
+            overlay.style.fontSize = "14px";
+            overlay.textContent = fallbackLink ? "no aff. link" : "no aff. & prod. link";
+            tile.appendChild(overlay);
           }
 
           tile.addEventListener("click", () => {
             const link = affiliateLink || fallbackLink || "https://www.amazon.com";
-            tryOpenAmazonApp();
-            // Fallback nach kurzem Timeout wenn App nicht öffnet
-            setTimeout(() => {
-              window.open(link, "_self");
-            }, 1000);
+            window.open(link, "_blank");
           });
 
           const nameBox = document.createElement("div");
