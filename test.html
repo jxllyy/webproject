@@ -31,25 +31,23 @@
 </head>
 <body>
 
-<button class="amazon-button" onclick="openAmazon()">Open in Amazon v6</button>
+<button class="amazon-button" onclick="openAmazon()">Open in Amazon v7</button>
 
 <script>
 function openAmazon() {
-  const asin = "B08XYZ1234"; // <- dein Amazon-Produkt
-  const affiliateTag = "deinaffiliate-21"; // <- optional
-  const fallbackUrl = `https://www.amazon.de/dp/${asin}?tag=${affiliateTag}`;
+  const fallbackUrl = "https://amzn.eu/d/9x5J1dB";
 
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-  // Detect In-App-Browser (z. B. TikTok, Instagram)
+  // In-App-Browser Detection (optional)
   const isInAppBrowser = /FBAN|FBAV|Instagram|TikTok/.test(userAgent);
 
   if (/android/i.test(userAgent)) {
-    // Android: Versuch App per intent://
-    const intentUrl = `intent://www.amazon.de/dp/${asin}#Intent;scheme=https;package=com.amazon.mShop.android.shopping;S.browser_fallback_url=${encodeURIComponent(fallbackUrl)};end;`;
+    // Android: Versuche, App über intent:// zu öffnen
+    const intentUrl = `intent://amzn.eu/d/9x5J1dB#Intent;scheme=https;package=com.amazon.mShop.android.shopping;S.browser_fallback_url=${encodeURIComponent(fallbackUrl)};end;`;
     window.location.href = intentUrl;
   } else if (/iPhone|iPad|iPod/i.test(userAgent)) {
-    // iOS: Versuch, normalen Amazon-Link zu verwenden (öffnet App über Universal Link)
+    // iOS: Universal Link, öffnet App wenn installiert
     window.location.href = fallbackUrl;
   } else {
     // Desktop fallback
