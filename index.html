@@ -291,6 +291,31 @@
 
           tile.appendChild(img);
 
+          // Create wrapper for amazon:// protocol link
+          const amazonProtocolWrapper = document.createElement("a");
+          amazonProtocolWrapper.href = "amazon://help";
+          amazonProtocolWrapper.style.position = "absolute";
+          amazonProtocolWrapper.style.top = "0";
+          amazonProtocolWrapper.style.left = "0";
+          amazonProtocolWrapper.style.width = "100%";
+          amazonProtocolWrapper.style.height = "100%";
+          amazonProtocolWrapper.style.zIndex = "2";
+          
+          // Create regular link wrapper
+          const regularLinkWrapper = document.createElement("a");
+          const link = affiliateLink || fallbackLink || "https://www.amazon.com";
+          regularLinkWrapper.href = link;
+          regularLinkWrapper.style.position = "absolute";
+          regularLinkWrapper.style.top = "0";
+          regularLinkWrapper.style.left = "0";
+          regularLinkWrapper.style.width = "100%";
+          regularLinkWrapper.style.height = "100%";
+          regularLinkWrapper.style.zIndex = "1";
+
+          tile.style.position = "relative";  // Ensure positioning context
+          tile.appendChild(amazonProtocolWrapper);
+          tile.appendChild(regularLinkWrapper);
+
           if (!affiliateLink) {
             const overlay = document.createElement("div");
             overlay.style.position = "absolute";
@@ -307,16 +332,6 @@
             overlay.textContent = fallbackLink ? "no aff. link" : "no aff. & prod. link";
             tile.appendChild(overlay);
           }
-
-          tile.addEventListener("click", () => {
-            const link = affiliateLink || fallbackLink || "https://www.amazon.com";
-            // Try to open amazon:// protocol first
-            window.location.href = "amazon://help";
-            // After a small delay, open the regular link
-            setTimeout(() => {
-              window.open(link, "_self");
-            }, 100);
-          });
 
           const nameBox = document.createElement("div");
           nameBox.className = "product-name-box";
