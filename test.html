@@ -28,6 +28,22 @@
     .amazon-button:hover {
       background-color: #FF8C00;
     }
+    .instagram-button {
+      display: inline-block;
+      background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 16px 32px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      margin-left: 20px;
+    }
+    .instagram-button:hover {
+      opacity: 0.9;
+    }
   </style>
   <script>
     function openAmazon(webUrl) {
@@ -43,11 +59,21 @@
         window.location.href = webUrl;
       }, 1000);
     }
+    
+    function openInstagram() {
+      event.preventDefault();
+      window.location.href = 'instagram://help';
+      
+      setTimeout(function() {
+        window.location.href = 'https://help.instagram.com';
+      }, 1000);
+    }
   </script>
 </head>
 <body>
-
-<a href="https://amzn.to/3XNhNhG" class="amazon-button" onclick="openAmazon(this.href)">Open in Amazon Test</a>
-
+  <div>
+    <a href="https://amzn.to/3XNhNhG" class="amazon-button" onclick="openAmazon(this.href)">Open in Amazon v2</a>
+    <a href="https://help.instagram.com" class="instagram-button" onclick="openInstagram()">Open Instagram Help</a>
+  </div>
 </body>
 </html>
