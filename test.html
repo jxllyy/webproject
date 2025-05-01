@@ -44,6 +44,15 @@
     .instagram-button:hover {
       opacity: 0.9;
     }
+    .button-container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .amazon-button.alt {
+      background-color: #e47911;
+    }
   </style>
   <script>
     function openAmazon(webUrl) {
@@ -71,9 +80,10 @@
   </script>
 </head>
 <body>
-  <div>
+  <div class="button-container">
     <a href="https://amzn.to/3XNhNhG" class="amazon-button" onclick="openAmazon(this.href)">Open in Amazon v2</a>
     <a href="https://help.instagram.com" class="instagram-button" onclick="openInstagram()">Open Instagram Help</a>
+    <a href="https://alltopfinds.com/redirect.html" class="amazon-button alt">Amazon Test</a>
   </div>
 </body>
 </html>
