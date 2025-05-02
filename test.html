@@ -20,11 +20,8 @@
     <div id="message">Checking browser...</div>
     <script>
         const userAgent = navigator.userAgent.toLowerCase();
-
-        const patterns = ['tiktok', 'chrome', 'safari', 'firefox', 'edg', 'opr', 'opera'];
-        const match = patterns.find(p => userAgent.includes(p)) || 'unknown';
-
-        document.getElementById('message').textContent = `${userAgent} browser v2`;
+        const isTikTok = userAgent.includes('bytedance') || userAgent.includes('musical');
+        document.getElementById('message').textContent = isTikTok ? 'TikTok detected' : 'normal browser';
     </script>
 </body>
 </html>
