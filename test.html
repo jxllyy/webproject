@@ -24,7 +24,7 @@
         const patterns = ['tiktok', 'chrome', 'safari', 'firefox', 'edg', 'opr', 'opera'];
         const match = patterns.find(p => userAgent.includes(p)) || 'unknown';
 
-        document.getElementById('message').textContent = `${match} browser`;
+        document.getElementById('message').textContent = `${userAgent} browser v2`;
     </script>
 </body>
 </html>
