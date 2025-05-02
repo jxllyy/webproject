@@ -53,6 +53,21 @@
     .amazon-button.alt {
       background-color: #e47911;
     }
+    .green-button {
+      display: inline-block;
+      background-color: #2E8B57;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 16px 32px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .green-button:hover {
+      background-color: #3CB371;
+    }
   </style>
   <script>
     function openAmazon(webUrl) {
@@ -84,6 +99,11 @@
     <a href="https://amzn.to/3XNhNhG" class="amazon-button" onclick="openAmazon(this.href)">Open in Amazon v2</a>
     <a href="https://help.instagram.com" class="instagram-button" onclick="openInstagram()">Open Instagram Help</a>
     <a href="https://alltopfinds.com/redirect.html" class="amazon-button alt">Amazon Test</a>
+    <a href="https://amazon.com/dp/B0DR8NJMCJ?ref=t_ac_view_request_product_image&campaignId=amzn1.campaign.121JHBC6KBVFV&linkCode=tr1&tag=makelifesim0b-20&linkId=amzn1.campaign.121JHBC6KBVFV_1740943225187&utm_source=hoobe&utm_medium=social" 
+       class="green-button" 
+       onclick="openAmazon(this.href)" 
+       target="_blank" 
+       rel="noopener noreferrer">Test v4</a>
   </div>
 </body>
 </html>
