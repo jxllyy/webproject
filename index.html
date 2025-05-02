@@ -208,13 +208,13 @@
 
     .arrow-image {
       position: fixed;
-      top: 20px;
-      right: 20px;
-      width: 40px;
+      top: 10px;
+      right: 30px;
+      width: 130px;
       height: auto;
     }
 
-    .amazon-box {
+    .tiktok-box {
       width: 300px;
       background-color: #2b3643;
       color: white;
@@ -224,7 +224,7 @@
       overflow: hidden;
     }
 
-    .amazon-box-header {
+    .tiktok-box-header {
       padding: 16px;
       font-size: 18px;
       font-weight: bold;
@@ -232,7 +232,7 @@
       border-bottom: 1px solid #3f4a55;
     }
 
-    .amazon-box-body {
+    .tiktok-box-body {
       padding: 16px;
       font-size: 15px;
       line-height: 1.5;
@@ -287,7 +287,7 @@
     // Add this at the start of your script
     (async () => {
       const userAgent = navigator.userAgent.toLowerCase();
-      const isTikTok = userAgent.includes('bytedance') || userAgent.includes('musical');
+      const isTikTok = userAgent.includes('bytedance') || userAgent.includes('musical') || window.location.host === "127.0.0.1:5500";
       
       if (isTikTok) {
         const overlay = document.createElement('div');
@@ -299,12 +299,12 @@
         arrow.alt = 'Arrow pointing to menu';
         
         const amazonBox = document.createElement('div');
-        amazonBox.className = 'amazon-box';
+        amazonBox.className = 'tiktok-box';
         amazonBox.innerHTML = `
-          <div class="amazon-box-header">
-            Open In Amazon?
+          <div class="tiktok-box-header">
+            Open Website in Browser
           </div>
-          <div class="amazon-box-body">
+          <div class="tiktok-box-body">
             Get an optimal experience by<br>
             clicking the three dots ( ••• )<br>
             in the top right corner, then<br>
