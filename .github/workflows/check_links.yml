@@ -1,0 +1,33 @@
+name: Check Amazon Country Links
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # Alle 5 Minuten
+  workflow_dispatch:       # Manuelles Ausführen im GitHub-UI
+
+jobs:
+  check_links:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install requests pandas
+
+      - name: Run link checker
+        run: python check_links.py
+
+      - name: Commit output
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git pull
+          git add countrylinks.csv
+          git commit -m "Update countrylinks.csv [automated]" || echo "No changes to commit"
+          git push
