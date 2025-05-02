@@ -3,9 +3,16 @@ import requests
 from urllib.parse import urlparse, parse_qs, quote_plus
 import time
 
-COUNTRIES = [
-    "com", "com.au", "ca", "fr", "de", "it", "es", "co.uk"
-]
+COUNTRIES = {
+    "com": "topfinds04df-20",
+    "com.au": "topfinds0f-22",
+    "ca": "topfinds0ee-20",
+    "fr": "topfinds038-21",
+    "de": "topfinds0a0-21",
+    "it": "topfinds03e-21",
+    "es": "topfinds0f1a-21",
+    "co.uk": "topfinds009e-21"
+}
 HEADERS = {"User-Agent": "Mozilla/5.0"}
 
 def extract_asin_and_query(url):
@@ -29,13 +36,13 @@ def check_url_exists(url):
 def make_links(row_url):
     asin, keywords = extract_asin_and_query(row_url)
     links = []
-    for domain in COUNTRIES:
+    for domain, tag in COUNTRIES.items():
         base = f"https://www.amazon.{domain}"
-        product_url = f"{base}/dp/{asin}"
+        product_url = f"{base}/dp/{asin}?tag={tag}"
         if check_url_exists(product_url):
             links.append(product_url)
         else:
-            search_url = f"{base}/s?k={quote_plus(keywords)}"
+            search_url = f"{base}/s?k={quote_plus(keywords)}&tag={tag}"
             links.append(search_url)
         time.sleep(1)  # langsam abfragen, Amazon blockiert sonst
     return links
@@ -51,6 +58,6 @@ for url in urls:
     results.append([url] + country_links)
 
 # Neue CSV schreiben
-columns = ["Original"] + [f"amazon.{c}" for c in COUNTRIES]
+columns = ["Original"] + [f"amazon.{c}" for c in COUNTRIES.keys()]
 result_df = pd.DataFrame(results, columns=columns)
 result_df.to_csv("countrylinks.csv", index=False)
