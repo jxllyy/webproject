@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Referrer & User-Agent Check</title>
+    <title>Browser Detection</title>
     <style>
         body {
             display: flex;
@@ -13,26 +13,18 @@
             margin: 0;
             font-family: Arial, sans-serif;
             font-size: 24px;
-            text-align: center;
-            padding: 20px;
         }
     </style>
 </head>
 <body>
-    <div id="message">Checking source...</div>
+    <div id="message">Checking browser...</div>
     <script>
-        const referrer = document.referrer;
-        const userAgent = navigator.userAgent;
-        const message = document.getElementById('message');
+        const userAgent = navigator.userAgent.toLowerCase();
 
-        const isFromTikTokReferrer = referrer.includes('tiktok.com/link/v2');
-        const isFromTikTokBrowser = userAgent.includes('TikTok') || userAgent.includes('com.zhiliaoapp.musically');
+        const patterns = ['tiktok', 'chrome', 'safari', 'firefox', 'edg', 'opr', 'opera'];
+        const match = patterns.find(p => userAgent.includes(p)) || 'unknown';
 
-        if (isFromTikTokReferrer || isFromTikTokBrowser) {
-            message.textContent = 'opened from TikTok';
-        } else {
-            message.textContent = 'opened from regular browser';
-        }
+        document.getElementById('message').textContent = `${match} browser`;
     </script>
 </body>
 </html>
