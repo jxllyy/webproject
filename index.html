@@ -200,12 +200,34 @@
       background: white;
       z-index: 9999;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      color: black;
-      font-size: 24px;
+      color: #2d3436;
       text-align: center;
       padding: 20px;
+    }
+
+    .tiktok-overlay h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .tiktok-overlay p {
+      font-size: 18px;
+      line-height: 1.5;
+      max-width: 80%;
+      margin-bottom: 30px;
+    }
+
+    .tiktok-arrow {
+      width: 60px;
+      height: 60px;
+      border: solid #2d3436;
+      border-width: 0 8px 8px 0;
+      transform: rotate(-45deg);
+      margin-bottom: 40px;
     }
   </style>
 </head>
@@ -261,7 +283,19 @@
       if (isTikTok) {
         const overlay = document.createElement('div');
         overlay.className = 'tiktok-overlay';
-        overlay.textContent = 'Please open in browser';
+        
+        const arrow = document.createElement('div');
+        arrow.className = 'tiktok-arrow';
+        
+        const title = document.createElement('h2');
+        title.textContent = 'Open In Amazon?';
+        
+        const instructions = document.createElement('p');
+        instructions.textContent = 'Get an optimal experience by clicking the three dots ( ••• ) in the top right corner, then press "Open In Browser".';
+        
+        overlay.appendChild(arrow);
+        overlay.appendChild(title);
+        overlay.appendChild(instructions);
         document.body.appendChild(overlay);
       }
     })();
