@@ -208,33 +208,34 @@
 
     .arrow-image {
       position: fixed;
-      top: 10px;
-      right: 30px;
+      top: 5px;
+      right: 50px;
       width: 130px;
       height: auto;
     }
 
     .tiktok-box {
       width: 300px;
-      background-color: #2b3643;
+      background-color: #24243f;
       color: white;
       font-family: Arial, sans-serif;
       border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 12px rgba(0,0,0,1);
       overflow: hidden;
     }
 
     .tiktok-box-header {
+      margin-top: 5px;
       padding: 16px;
-      font-size: 18px;
+      font-size: 21px;
       font-weight: bold;
       text-align: center;
-      border-bottom: 1px solid #3f4a55;
+      border-bottom: 3px solid #3f4a55;
     }
 
     .tiktok-box-body {
       padding: 16px;
-      font-size: 15px;
+      font-size: 16px;
       line-height: 1.5;
       text-align: center;
     }
@@ -298,22 +299,21 @@
         arrow.className = 'arrow-image';
         arrow.alt = 'Arrow pointing to menu';
         
-        const amazonBox = document.createElement('div');
-        amazonBox.className = 'tiktok-box';
-        amazonBox.innerHTML = `
+        const tiktokBox = document.createElement('div');
+        tiktokBox.className = 'tiktok-box';
+        tiktokBox.innerHTML = `
           <div class="tiktok-box-header">
-            Open Website in Browser
+            Open in Browser
           </div>
           <div class="tiktok-box-body">
-            Get an optimal experience by<br>
-            clicking the three dots ( ••• )<br>
-            in the top right corner, then<br>
-            press "Open In Browser".
+            This Website only works in browser<br>
+            Click ( ••• ) in the top right corner,<br>
+            then press "Open In Browser".
           </div>
         `;
         
         overlay.appendChild(arrow);
-        overlay.appendChild(amazonBox);
+        overlay.appendChild(tiktokBox);
         document.body.appendChild(overlay);
       }
     })();
