@@ -191,43 +191,52 @@
       }
     }
 
+    /* TikTok overlay styles */
     .tiktok-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: white;
+      background-color: white;
       z-index: 9999;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      color: #2d3436;
-      text-align: center;
-      padding: 20px;
+      justify-content: center;
     }
 
-    .tiktok-overlay h2 {
-      font-size: 28px;
-      margin-bottom: 20px;
-      font-weight: 600;
+    .arrow-image {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: auto;
     }
 
-    .tiktok-overlay p {
+    .amazon-box {
+      width: 300px;
+      background-color: #2b3643;
+      color: white;
+      font-family: Arial, sans-serif;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+
+    .amazon-box-header {
+      padding: 16px;
       font-size: 18px;
-      line-height: 1.5;
-      max-width: 80%;
-      margin-bottom: 30px;
+      font-weight: bold;
+      text-align: center;
+      border-bottom: 1px solid #3f4a55;
     }
 
-    .tiktok-arrow {
-      width: 60px;
-      height: 60px;
-      border: solid #2d3436;
-      border-width: 0 8px 8px 0;
-      transform: rotate(-45deg);
-      margin-bottom: 40px;
+    .amazon-box-body {
+      padding: 16px;
+      font-size: 15px;
+      line-height: 1.5;
+      text-align: center;
     }
   </style>
 </head>
@@ -284,18 +293,27 @@
         const overlay = document.createElement('div');
         overlay.className = 'tiktok-overlay';
         
-        const arrow = document.createElement('div');
-        arrow.className = 'tiktok-arrow';
+        const arrow = document.createElement('img');
+        arrow.src = 'arrow.png';
+        arrow.className = 'arrow-image';
+        arrow.alt = 'Arrow pointing to menu';
         
-        const title = document.createElement('h2');
-        title.textContent = 'Open In Amazon?';
-        
-        const instructions = document.createElement('p');
-        instructions.textContent = 'Get an optimal experience by clicking the three dots ( ••• ) in the top right corner, then press "Open In Browser".';
+        const amazonBox = document.createElement('div');
+        amazonBox.className = 'amazon-box';
+        amazonBox.innerHTML = `
+          <div class="amazon-box-header">
+            Open In Amazon?
+          </div>
+          <div class="amazon-box-body">
+            Get an optimal experience by<br>
+            clicking the three dots ( ••• )<br>
+            in the top right corner, then<br>
+            press "Open In Browser".
+          </div>
+        `;
         
         overlay.appendChild(arrow);
-        overlay.appendChild(title);
-        overlay.appendChild(instructions);
+        overlay.appendChild(amazonBox);
         document.body.appendChild(overlay);
       }
     })();
