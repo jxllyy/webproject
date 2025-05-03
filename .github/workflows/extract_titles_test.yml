@@ -1,8 +1,6 @@
 name: Extract Amazon Titles
 
 on:
-  schedule:
-    - cron: "*/30 * * * *"  # Alle 30 Minuten
   workflow_dispatch:
 
 jobs:
