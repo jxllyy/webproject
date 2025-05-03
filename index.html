@@ -318,29 +318,66 @@
       }
     })();
 
+    let userCountry = 'US'; // Default to US
+    const validCountries = ['US', 'AU', 'CA', 'FR', 'DE', 'IT', 'ES', 'GB'];
+    const countryColumnMap = {
+      'US': 1, 'AU': 2, 'CA': 3, 'FR': 4,
+      'DE': 5, 'IT': 6, 'ES': 7, 'GB': 8
+    };
+
+    // Get user's country
+    fetch('https://ipapi.co/json/')
+      .then(response => response.json())
+      .then(data => {
+        userCountry = data.country;
+        console.log('User country:', userCountry);
+      })
+      .catch(error => console.error('Error fetching country:', error));
+
     const gridContainer = document.getElementById("grid-container");
     const searchInput = document.getElementById("search-input");
 
     const host = window.location.host;
-    const csvUrl = host === "127.0.0.1:5500"
+    const productsCsvUrl = host === "127.0.0.1:5500"
       ? "https://docs.google.com/spreadsheets/d/17W9pOU5n4GCEb0WBQ0O2QecztUB2djmRxwk9tCJNDcI/export?format=csv"
       : "data.csv";
+    const countryLinksUrl = host === "127.0.0.1:5500"
+      ? "https://raw.githubusercontent.com/jxllyy/webproject/refs/heads/main/countrylinks.csv"
+      : "countrylinks.csv";
 
     async function fetchAndProcessCSV() {
       try {
-        const response = await fetch(csvUrl);
-        if (!response.ok) throw new Error("Failed to fetch CSV file");
-        const csvText = await response.text();
+        // Fetch both CSVs
+        const [productsResponse, countryLinksResponse] = await Promise.all([
+          fetch(productsCsvUrl),
+          fetch(countryLinksUrl)
+        ]);
 
-        const rows = csvText.split("\n").map(row => row.split(","));
-        const validRows = rows.filter(row => row[0]?.trim());
+        if (!productsResponse.ok || !countryLinksResponse.ok) 
+          throw new Error("Failed to fetch CSV files");
+
+        const productsText = await productsResponse.text();
+        const countryLinksText = await countryLinksResponse.text();
+
+        // Process products CSV
+        const productRows = productsText.split("\n").map(row => row.split(","));
+        const validProductRows = productRows.filter(row => row[0]?.trim());
+
+        // Process country links CSV
+        const countryLinksRows = countryLinksText.split("\n").map(row => row.split(","));
+
         gridContainer.innerHTML = "";
 
         const firstSixPromises = [];
         const firstSixTiles = [];
 
-        validRows.forEach((row, index) => {
-          const [productName, fallbackLink, affiliateLink, imageFile] = row.map(cell => cell.trim());
+        validProductRows.forEach((row, index) => {
+          const [productName, , , imageFile] = row.map(cell => cell.trim());
+          
+          // Get the correct affiliate link based on country
+          const countryLinksRow = countryLinksRows[index + 1]; // Skip header row
+          const columnIndex = countryColumnMap[userCountry] || 1; // Default to US links
+          const affiliateLink = countryLinksRow ? countryLinksRow[columnIndex].trim() : null;
 
           const tileWrapper = document.createElement("div");
           tileWrapper.className = "tile-wrapper";
@@ -386,13 +423,16 @@
             overlay.style.justifyContent = "center";
             overlay.style.alignItems = "center";
             overlay.style.fontSize = "14px";
-            overlay.textContent = fallbackLink ? "no aff. link" : "no aff. & prod. link";
+            overlay.textContent = "no link available";
             tile.appendChild(overlay);
           }
 
           tile.addEventListener("click", () => {
-            const link = affiliateLink || fallbackLink || "https://www.amazon.com";
-            window.open(link, "_blank");
+            if (affiliateLink) {
+              window.open(affiliateLink, "_blank");
+            } else {
+              window.open("https://www.amazon.com", "_blank");
+            }
           });
 
           const nameBox = document.createElement("div");
