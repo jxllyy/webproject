@@ -1,8 +1,6 @@
 name: Check Amazon Country Links
 
 on:
-  schedule:
-    - cron: '*/5 * * * *'  # Alle 5 Minuten
   workflow_dispatch:       # Manuelles Ausführen im GitHub-UI
 
 jobs:
