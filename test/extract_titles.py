@@ -1,56 +1,53 @@
 import pandas as pd
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
+import requests
+from bs4 import BeautifulSoup
 import time
-import re
+import os
 
-# Datei-Pfade
-input_path = "test/TestTable.csv"
-output_path = "test/names.csv"
-
-# Amazon-Länder
-countries = {
-    "DE": "www.amazon.de",
-    "US": "www.amazon.com",
-    "FR": "www.amazon.fr"
+# Domains für Länder
+country_domains = {
+    'Deutschland': 'amazon.de',
+    'USA': 'amazon.com',
+    'Frankreich': 'amazon.fr'
 }
 
-# Chrome headless konfigurieren
-options = Options()
-options.add_argument('--headless=new')
-options.add_argument('--disable-gpu')
-options.add_argument('--no-sandbox')
-options.add_argument('--window-size=1920,1080')
+# Eingabedatei
+input_path = 'Test/TestTable.csv'
+output_path = 'Test/names.csv'
 
-driver = webdriver.Chrome(options=options)
+# Prüfen, ob Datei existiert
+if not os.path.exists(input_path):
+    print(f"Datei nicht gefunden: {input_path}")
+    exit(1)
 
-# CSV einlesen
+# Links einlesen und ASIN extrahieren
 df = pd.read_csv(input_path, header=None)
-product_links = df[0].tolist()
+asin_list = [url.split("/dp/")[1].split("/")[0] for url in df[0]]
 
 results = []
 
-def extract_asin(url):
-    match = re.search(r'/([A-Z0-9]{10})(?:[/?]|$)', url)
-    return match.group(1) if match else "unbekannt"
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+}
 
-for link in product_links:
-    asin = extract_asin(link)
-    row = [asin]
-    for country_code, domain in countries.items():
-        country_link = re.sub(r"www\.amazon\.[a-z.]+", domain, link)
+for asin in asin_list:
+    titles = {}
+    for country, domain in country_domains.items():
+        url = f"https://www.{domain}/dp/{asin}"
         try:
-            driver.get(country_link)
-            time.sleep(4)  # einfache Wartezeit für JS
-            title = driver.find_element(By.ID, "productTitle").text.strip()
-        except Exception:
-            title = "Nicht gefunden"
-        row.append(title)
-    results.append(row)
+            response = requests.get(url, headers=headers, timeout=10)
+            soup = BeautifulSoup(response.content, "html.parser")
+            title = soup.find(id="productTitle")
+            if title:
+                titles[country] = title.get_text(strip=True)
+            else:
+                titles[country] = "Nicht gefunden"
+        except Exception as e:
+            titles[country] = "Fehler"
+        time.sleep(2)  # Schutz vor Rate-Limit
+    results.append(titles)
 
-driver.quit()
-
-# Ergebnisse schreiben
-columns = ["ASIN"] + list(countries.keys())
-pd.DataFrame(results, columns=columns).to_csv(output_path, index=False)
+# Ergebnisse speichern
+output_df = pd.DataFrame(results)
+output_df.to_csv(output_path, index=False)
+print(f"Gespeichert unter: {output_path}")
