@@ -434,28 +434,15 @@
 
           tile.appendChild(img);
 
-          // Create link overlay
+          // Create invisible overlay for click handling only
           const overlay = document.createElement("div");
           overlay.style.position = "absolute";
           overlay.style.top = "0";
           overlay.style.left = "0";
           overlay.style.width = "100%";
           overlay.style.height = "100%";
-          overlay.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
-          overlay.style.color = "white";
-          overlay.style.display = "flex";
-          overlay.style.justifyContent = "center";
-          overlay.style.alignItems = "center";
-          overlay.style.fontSize = "12px";
-          overlay.style.padding = "10px";
-          overlay.style.textAlign = "center";
-          overlay.style.wordBreak = "break-word";
+          overlay.style.cursor = "pointer";
           
-          if (affiliateLink) {
-            overlay.textContent = affiliateLink;
-          } else {
-            overlay.textContent = "no link available";
-          }
           tile.appendChild(overlay);
 
           tile.addEventListener("click", () => {
