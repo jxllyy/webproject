@@ -1,7 +1,10 @@
 name: Download CSV
 
 on:
-  workflow_dispatch:  # Optional: manuell auslösen
+  push:
+    branches:
+      - main         # automatisch bei Push auf main
+  workflow_dispatch:  # zusätzlich manuell ausführbar
 
 jobs:
   download:
