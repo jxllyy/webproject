@@ -1,7 +1,9 @@
 name: Extract Amazon Titles
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # Nur manuell starten
+  # schedule:
+  #   - cron: "0 3 * * *"  # Optional: Täglich um 03:00 UTC
 
 jobs:
   extract_titles:
