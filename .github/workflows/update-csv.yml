@@ -8,7 +8,7 @@ on:
 
 jobs:
   download:
-    if: "!contains(github.event.head_commit.message, 'Update CSV')"  # Filter gegen Endlosschleife
+    if: "!contains(github.event.head_commit.message, '[automated]')"  # Filter gegen Endlosschleife
     runs-on: ubuntu-latest
 
     steps:
@@ -24,7 +24,7 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
           git add data.csv
-          git commit -m "Update CSV" || echo "No changes to commit"
+          git commit -m "Update CSV [automated]" || echo "No changes to commit"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git push origin main
         env:
