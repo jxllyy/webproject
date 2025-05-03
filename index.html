@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TopFinds - Home</title>
   <!-- Google Fonts -->
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" as="style">
@@ -162,21 +162,27 @@
     @media (max-width: 768px) {
       .grid-container {
         grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
       }
 
       .logo-container {
         height: 110px;
-        margin-top: 30px;
+        margin-top: 20px;
       }
 
       .disclaimer {
         font-size: 13px;
-        margin-bottom: 50px;
+        margin-bottom: 30px;
       }
 
       .search-bar {
         margin-top: 0;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
+      }
+      
+      .product-name-box {
+        font-size: 12px;
+        padding: 5px 3px;
       }
     }
 
