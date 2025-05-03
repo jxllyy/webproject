@@ -21,10 +21,8 @@ jobs:
         pip install selenium pandas
         sudo apt-get update
         sudo apt-get install -y chromium-chromedriver
-        sudo ln -sf /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver
 
-
-    - name: Run script
+    - name: Run title extractor script
       run: python test/extract_titles.py
 
     - name: Commit and push results
