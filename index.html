@@ -384,7 +384,7 @@
           
           // Get the correct affiliate link based on country
           const countryLinksRow = countryLinksRows[index]; // Start at first row
-          const columnIndex = countryColumnMap[userCountry] || 1; // Default to US links
+          const columnIndex = countryColumnMap[userCountry]; // Default to US links
           const affiliateLink = countryLinksRow ? countryLinksRow[columnIndex].trim() : null;
 
           const tileWrapper = document.createElement("div");
