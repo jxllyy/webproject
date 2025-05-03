@@ -288,7 +288,7 @@
     // Add this at the start of your script
     (async () => {
       const userAgent = navigator.userAgent.toLowerCase();
-      const isTikTok = userAgent.includes('bytedance') || userAgent.includes('musical') || window.location.host === "127.0.0.1:5500";
+      const isTikTok = userAgent.includes('bytedance') || userAgent.includes('musical');
       
       if (isTikTok) {
         const overlay = document.createElement('div');
