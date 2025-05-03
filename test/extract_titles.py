@@ -11,7 +11,7 @@ country_domains = {
 }
 
 # Lade Produkt-Links
-df = pd.read_csv('MainPath/Test/TestTable.csv', header=None)
+df = pd.read_csv('test/TestTable.csv', header=None)
 asin_list = [url.split("/dp/")[1].split("/")[0] for url in df[0]]
 
 results = []
@@ -39,4 +39,4 @@ for asin in asin_list:
 
 # Speichern als CSV
 output_df = pd.DataFrame(results)
-output_df.to_csv("MainPath/Test/names.csv", index=False)
+output_df.to_csv("test/names.csv", index=False)
