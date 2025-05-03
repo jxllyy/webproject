@@ -44,7 +44,7 @@ def make_links(row_url):
         else:
             search_url = f"{base}/s?k={quote_plus(keywords)}&tag={tag}"
             links.append(search_url)
-        time.sleep(1)  # langsam abfragen, Amazon blockiert sonst
+        time.sleep(1)
     return links
 
 # CSV einlesen und Spalte extrahieren
@@ -57,7 +57,6 @@ for url in urls:
     country_links = make_links(url)
     results.append([url] + country_links)
 
-# Neue CSV schreiben
-columns = ["Original"] + [f"amazon.{c}" for c in COUNTRIES.keys()]
-result_df = pd.DataFrame(results, columns=columns)
-result_df.to_csv("countrylinks.csv", index=False)
+# Neue CSV schreiben (ohne Header-Zeile)
+result_df = pd.DataFrame(results)
+result_df.to_csv("countrylinks.csv", index=False, header=False)
