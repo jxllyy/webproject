@@ -2,16 +2,26 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 import time
+import os
 
-# Amazon Domains
+# Domains für Länder
 country_domains = {
     'Deutschland': 'amazon.de',
     'USA': 'amazon.com',
     'Frankreich': 'amazon.fr'
 }
 
-# Lade Produkt-Links
-df = pd.read_csv('test/TestTable.csv', header=None)
+# Eingabedatei
+input_path = 'test/TestTable.csv'
+output_path = 'test/names.csv'
+
+# Prüfen, ob Datei existiert
+if not os.path.exists(input_path):
+    print(f"Datei nicht gefunden: {input_path}")
+    exit(1)
+
+# Links einlesen und ASIN extrahieren
+df = pd.read_csv(input_path, header=None)
 asin_list = [url.split("/dp/")[1].split("/")[0] for url in df[0]]
 
 results = []
@@ -21,7 +31,7 @@ headers = {
 }
 
 for asin in asin_list:
-    titles = {}
+    titles = {"ASIN": asin}
     for country, domain in country_domains.items():
         url = f"https://www.{domain}/dp/{asin}"
         try:
@@ -32,11 +42,12 @@ for asin in asin_list:
                 titles[country] = title.get_text(strip=True)
             else:
                 titles[country] = "Nicht gefunden"
-        except Exception as e:
+        except Exception:
             titles[country] = "Fehler"
-        time.sleep(2)  # Amazon blockiert sonst Anfragen
+        time.sleep(2)  # Schutz vor Blockierung
     results.append(titles)
 
-# Speichern als CSV
+# Ergebnisse speichern
 output_df = pd.DataFrame(results)
-output_df.to_csv("test/names.csv", index=False)
+output_df.to_csv(output_path, index=False)
+print(f"Gespeichert unter: {output_path}")
