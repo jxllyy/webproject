@@ -1,53 +1,55 @@
 import pandas as pd
-import requests
-from bs4 import BeautifulSoup
 import time
 import os
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
 
-# Domains für Länder
+# Länder und Domains
 country_domains = {
     'Deutschland': 'amazon.de',
     'USA': 'amazon.com',
     'Frankreich': 'amazon.fr'
 }
 
-# Eingabedatei
 input_path = 'test/TestTable.csv'
 output_path = 'test/names.csv'
 
-# Prüfen, ob Datei existiert
+# Existenz der Datei prüfen
 if not os.path.exists(input_path):
     print(f"Datei nicht gefunden: {input_path}")
     exit(1)
 
-# Links einlesen und ASIN extrahieren
 df = pd.read_csv(input_path, header=None)
 asin_list = [url.split("/dp/")[1].split("/")[0] for url in df[0]]
 
-results = []
+# Selenium Headless-Browser konfigurieren
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+chrome_options.add_argument("user-agent=Mozilla/5.0")
 
-headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-}
+driver = webdriver.Chrome(options=chrome_options)
+
+results = []
 
 for asin in asin_list:
     titles = {"ASIN": asin}
     for country, domain in country_domains.items():
         url = f"https://www.{domain}/dp/{asin}"
         try:
-            response = requests.get(url, headers=headers, timeout=10)
-            soup = BeautifulSoup(response.content, "html.parser")
-            title = soup.find(id="productTitle")
-            if title:
-                titles[country] = title.get_text(strip=True)
-            else:
-                titles[country] = "Nicht gefunden"
+            driver.get(url)
+            time.sleep(3)
+            title = driver.find_element(By.ID, "productTitle").text.strip()
+            titles[country] = title
         except Exception:
-            titles[country] = "Fehler"
-        time.sleep(2)  # Schutz vor Blockierung
+            titles[country] = "Nicht gefunden"
     results.append(titles)
 
+driver.quit()
+
 # Ergebnisse speichern
-output_df = pd.DataFrame(results)
-output_df.to_csv(output_path, index=False)
+pd.DataFrame(results).to_csv(output_path, index=False)
 print(f"Gespeichert unter: {output_path}")
