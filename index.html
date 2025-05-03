@@ -335,9 +335,10 @@
     fetch('https://ipapi.co/json/')
       .then(response => response.json())
       .then(data => {
-        userCountry = data.country;
+        if (validCountries.includes(data.country)) {
+          userCountry = data.country;
+        }
         console.log('User country:', userCountry);
-        // Update the country display in footer
         document.getElementById('country-display').textContent = userCountry;
       })
       .catch(error => console.error('Error fetching country:', error));
@@ -383,9 +384,19 @@
           const [productName, , , imageFile] = row.map(cell => cell.trim());
           
           // Get the correct affiliate link based on country
-          const countryLinksRow = countryLinksRows[index]; // Start at first row
-          const columnIndex = countryColumnMap[userCountry] || 1; // Default to US links
-          const affiliateLink = countryLinksRow ? countryLinksRow[columnIndex].trim() : null;
+          const countryLinksRow = countryLinksRows[index];
+          let affiliateLink = null;
+          
+          if (countryLinksRow) {
+            const columnIndex = countryColumnMap[userCountry];
+            if (columnIndex && countryLinksRow[columnIndex]) {
+              affiliateLink = countryLinksRow[columnIndex].trim();
+            }
+            // If no link for user's country, fallback to US link
+            if (!affiliateLink && countryLinksRow[1]) {
+              affiliateLink = countryLinksRow[1].trim();
+            }
+          }
 
           const tileWrapper = document.createElement("div");
           tileWrapper.className = "tile-wrapper";
@@ -488,5 +499,3 @@
   </footer>
 </body>
 </html>
-
-awdwad
