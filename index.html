@@ -375,7 +375,7 @@
           const [productName, , , imageFile] = row.map(cell => cell.trim());
           
           // Get the correct affiliate link based on country
-          const countryLinksRow = countryLinksRows[index + 1]; // Skip header row
+          const countryLinksRow = countryLinksRows[index]; // Start at first row
           const columnIndex = countryColumnMap[userCountry] || 1; // Default to US links
           const affiliateLink = countryLinksRow ? countryLinksRow[columnIndex].trim() : null;
 
