@@ -47,8 +47,11 @@ def make_links(row_url):
         time.sleep(1)
     return links
 
-# CSV einlesen und Spalte extrahieren
-df = pd.read_csv("data.csv", header=None)
+# CSV direkt aus Google Sheets-Export-Link laden
+url = "https://docs.google.com/spreadsheets/d/17W9pOU5n4GCEb0WBQ0O2QecztUB2djmRxwk9tCJNDcI/export?format=csv"
+df = pd.read_csv(url, header=None)  # CSV direkt aus dem Link lesen
+
+# Spalte extrahieren
 urls = df.iloc[:, 2].dropna().tolist()
 
 # Ergebnisse sammeln
