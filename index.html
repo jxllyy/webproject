@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport"="width=device-width, initial-scale=1.0">
   <title>TopFinds - Home</title>
   <!-- Google Fonts -->
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" as="style">
@@ -331,6 +331,8 @@
       .then(data => {
         userCountry = data.country;
         console.log('User country:', userCountry);
+        // Update the country display in footer
+        document.getElementById('country-display').textContent = userCountry;
       })
       .catch(error => console.error('Error fetching country:', error));
 
@@ -475,7 +477,8 @@
   <footer>
     <a href="privacy.html" style="color: gray; text-decoration: none; margin-right: 15px;">Privacy Policy</a>
     <a href="legal.html" style="color: gray; text-decoration: none; margin-right: 15px;">Legal Notice</a>
-    <a href="test.html" style="color: gray; text-decoration: none;">Test</a>
+    <a href="test.html" style="color: gray; text-decoration: none; margin-right: 15px;">Test</a>
+    <span id="country-display" style="color: gray;"></span>
   </footer>
 </body>
 </html>
