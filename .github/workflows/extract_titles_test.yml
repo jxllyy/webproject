@@ -1,9 +1,7 @@
 name: Extract Amazon Titles
 
 on:
-  workflow_dispatch:  # Nur manuell starten
-  # schedule:
-  #   - cron: "0 3 * * *"  # Optional: Täglich um 03:00 UTC
+  workflow_dispatch:
 
 jobs:
   extract_titles:
@@ -23,3 +21,11 @@ jobs:
 
     - name: Run script
       run: python test/extract_titles.py
+
+    - name: Commit and push changes
+      run: |
+        git config --global user.name "github-actions"
+        git config --global user.email "actions@github.com"
+        git add test/names.csv
+        git commit -m "Automatisch erzeugte names.csv" || echo "Nichts zu committen"
+        git push
