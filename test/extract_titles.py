@@ -12,8 +12,8 @@ country_domains = {
 }
 
 # Eingabedatei
-input_path = 'Test/TestTable.csv'
-output_path = 'Test/names.csv'
+input_path = 'test/TestTable.csv'
+output_path = 'test/names.csv'
 
 # Prüfen, ob Datei existiert
 if not os.path.exists(input_path):
