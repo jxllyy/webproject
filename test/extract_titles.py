@@ -3,8 +3,8 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 
-USERNAME = 'USER'
-PASSWORD = 'PASS123'
+USERNAME = 'barbe381@chefalicious.com'
+PASSWORD = 'Simon7503@'
 
 proxies = {
     'http': f'http://user-{USERNAME}:{PASSWORD}@dc.oxylabs.io:8000',
