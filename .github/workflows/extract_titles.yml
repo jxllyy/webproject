@@ -1,0 +1,25 @@
+name: Extract Amazon Titles
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"  # Alle 30 Minuten
+  workflow_dispatch:
+
+jobs:
+  extract_titles:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: pip install requests beautifulsoup4 pandas
+
+    - name: Run script
+      run: python MainPath/Test/extract_titles.py
