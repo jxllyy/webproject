@@ -12,7 +12,7 @@ Email: njbaumgardt@gmail.com
 
 
 3. Minimal IP-Based Location Lookup
-When you visit our website, a request is made to the external service ipapi.co to determine the country from which you are accessing the site. This is used exclusively to customize product links, such as directing users to the appropriate regional version of Amazon (e.g., Amazon.de, Amazon.fr, Amazon.com).
+When you visit our website, a request is made to the external service ipapi.co to determine the country from which you are accessing the site. This is used exclusively to customize product links (e.g., to show country-specific Amazon links).
 
 No personal data such as names or precise location is collected.
 We do not store any IP addresses ourselves.
@@ -24,6 +24,7 @@ According to ipapi.co’s privacy practices, they may process the IP address tem
 This website participates in the Amazon EU Associates Program. Amazon may use cookies to track orders made through affiliate links.
 Amazon is solely responsible for this data processing.
 For more information, please refer to Amazon's Privacy Notice.
+https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ
 
 
 5. No Other Personal Data Collection
