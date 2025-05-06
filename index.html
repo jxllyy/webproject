@@ -325,10 +325,12 @@
     })();
 
     let userCountry = 'US'; // Default to US
-    const validCountries = ['US', 'AU', 'CA', 'FR', 'DE', 'IT', 'ES', 'GB'];
+    const validCountries = ['US', 'AU', 'CA', 'FR', 'DE', 'IT', 'ES', 'GB', 'AT', 'CH'];
     const countryColumnMap = {
       'US': 1, 'AU': 2, 'CA': 3, 'FR': 4,
-      'DE': 5, 'IT': 6, 'ES': 7, 'GB': 8
+      'DE': 5, 'IT': 6, 'ES': 7, 'GB': 8,
+      'AT': 5, // Map Austria to German links (column 5)
+      'CH': 5  // Map Switzerland to German links (column 5)
     };
 
     // Wait for country detection before loading products
