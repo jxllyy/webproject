@@ -325,12 +325,19 @@
     })();
 
     let userCountry = 'US'; // Default to US
-    const validCountries = ['US', 'AU', 'CA', 'FR', 'DE', 'IT', 'ES', 'GB', 'AT', 'CH'];
+    const validCountries = ['US', 'AU', 'CA', 'FR', 'DE', 'IT', 'ES', 'GB', 'AT', 'CH', 
+                           'PT', 'NZ', 'IE', 'BE', 'LU', 'LI'];
     const countryColumnMap = {
       'US': 1, 'AU': 2, 'CA': 3, 'FR': 4,
       'DE': 5, 'IT': 6, 'ES': 7, 'GB': 8,
       'AT': 5, // Map Austria to German links (column 5)
-      'CH': 5  // Map Switzerland to German links (column 5)
+      'CH': 5, // Map Switzerland to German links (column 5)
+      'LI': 5, // Map Liechtenstein to German links (column 5)
+      'PT': 7, // Map Portugal to Spanish links (column 7)
+      'NZ': 2, // Map New Zealand to Australian links (column 2)
+      'IE': 8, // Map Ireland to UK links (column 8)
+      'BE': 4, // Map Belgium to French links (column 4)
+      'LU': 4  // Map Luxembourg to French links (column 4)
     };
 
     // Wait for country detection before loading products
