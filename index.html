@@ -324,6 +324,104 @@
       }
     })();
 
+    // Stats tracking
+    (async () => {
+      const STATS_KEY = 'site_stats';
+      const COUNTRY_GROUPS = {
+        'DE': ['DE', 'AT', 'CH', 'LI'],
+        'FR': ['FR', 'BE', 'LU'],
+        'ES': ['ES', 'PT'], 
+        'GB': ['GB', 'IE'],
+        'AU': ['AU', 'NZ'],
+        'US': ['US'],
+        'CA': ['CA'],
+        'IT': ['IT']
+      };
+
+      const getGroupedCountry = (country) => {
+        return Object.entries(COUNTRY_GROUPS)
+          .find(([, countries]) => countries.includes(country))?.[0] || 'US';
+      };
+
+      const downloadStats = () => {
+        const stats = localStorage.getItem(STATS_KEY);
+        if (!stats) return;
+
+        // Convert JSON stats to CSV format
+        const jsonStats = JSON.parse(stats);
+        const rows = ['ASIN,Total,US,AU,CA,FR,DE,IT,ES,GB'];
+        
+        // Add pageviews
+        const pv = jsonStats.pageviews;
+        rows.push(`Aufrufe,${pv.total || 0},${pv.US || 0},${pv.AU || 0},${pv.CA || 0},${pv.FR || 0},${pv.DE || 0},${pv.IT || 0},${pv.ES || 0},${pv.GB || 0}`);
+        
+        // Add product clicks
+        Object.entries(jsonStats.clicks).forEach(([asin, data]) => {
+          rows.push(`${asin},${data.total || 0},${data.US || 0},${data.AU || 0},${data.CA || 0},${data.FR || 0},${data.DE || 0},${data.IT || 0},${data.ES || 0},${data.GB || 0}`);
+        });
+
+        // Download CSV
+        const csv = rows.join('\n');
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'stats.csv';
+        link.click();
+      };
+
+      document.getElementById('download-stats').addEventListener('click', downloadStats);
+
+      const updateStatsCSV = async (type, asin = 'Aufrufe') => {
+        const country = getGroupedCountry(userCountry);
+        const csvData = await fetch('stats.csv').then(res => res.text()).catch(() => '');
+        
+        // Parse existing CSV or create new one
+        let rows = csvData ? csvData.split('\n') : [];
+        if (!rows.length) {
+          rows = [`ASIN,Total,US,AU,CA,FR,DE,IT,ES,GB`];
+        }
+
+        // Find or create row for this ASIN/pageview
+        let rowIndex = rows.findIndex(row => row.startsWith(asin + ','));
+        if (rowIndex === -1) {
+          rows.push(`${asin},0,0,0,0,0,0,0,0,0`);
+          rowIndex = rows.length - 1;
+        }
+
+        // Update counts
+        let cells = rows[rowIndex].split(',');
+        const countryIndex = ['ASIN','Total','US','AU','CA','FR','DE','IT','ES','GB']
+          .indexOf(country);
+        
+        if (countryIndex > 0) {
+          cells[countryIndex] = (parseInt(cells[countryIndex]) || 0) + 1;
+          // Update total (always in position 1)
+          cells[1] = rows[rowIndex].split(',').slice(2)
+            .reduce((sum, val) => sum + (parseInt(val) || 0), 0);
+          rows[rowIndex] = cells.join(',');
+        }
+
+        // Convert back to CSV and download
+        const csv = rows.join('\n');
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'stats.csv';
+        link.click();
+      };
+
+      // Track pageview
+      await updateStatsCSV('pageview');
+      
+      // Add click tracking to product tiles
+      document.addEventListener('click', async (e) => {
+        const tile = e.target.closest('.tile-wrapper');
+        if (tile && tile.dataset.asin) {
+          await updateStatsCSV('click', tile.dataset.asin);
+        }
+      });
+    })();
+
     let userCountry = 'US'; // Default to US
     const validCountries = ['US', 'AU', 'CA', 'FR', 'DE', 'IT', 'ES', 'GB', 'AT', 'CH', 
                            'PT', 'NZ', 'IE', 'BE', 'LU', 'LI'];
@@ -504,6 +602,7 @@
     <a href="privacy.html" style="color: gray; text-decoration: none; margin-right: 15px;">Privacy Policy</a>
     <a href="legal.html" style="color: gray; text-decoration: none; margin-right: 15px;">Legal Notice</a>
     <a href="test.html" style="color: gray; text-decoration: none; margin-right: 15px;">Test</a>
+    <button id="download-stats" style="background: none; border: none; color: gray; text-decoration: none; cursor: pointer; margin-right: 15px;">Download Stats</button>
     <span id="country-display" style="color: gray;"></span>
   </footer>
 </body>
